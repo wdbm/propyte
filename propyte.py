@@ -54,7 +54,6 @@ import technicolor as technicolor
 from   docopt import docopt
 import pyrecon as pyrecon
 import pyprel as pyprel
-from   PyQt4 import QtGui, QtCore
 
 def main(options):
 
