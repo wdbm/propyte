@@ -1,0 +1,7 @@
+- settings1
+   - item1
+      - attribute1: red
+      - attribute2: blue
+   - item2
+      - attribute1: green
+      - attribute2: purple
