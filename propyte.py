@@ -94,7 +94,7 @@ def main(options):
                     .get("attribute3", "nonexistent")
     ))
 
-    # Loop over multiple values of the program configuratino dictionary.
+    # Loop over multiple values of the program configuration dictionary.
     logger.info("loading items of settings1")
     for name, attributes in program.configuration["settings1"].iteritems():
         logger.info("loading item {name}".format(
