@@ -23,7 +23,7 @@
 #                                                                              #
 # This program is distributed in the hope that it will be useful, but WITHOUT  #
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or        #
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for    #
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for     #
 # more details.                                                                #
 #                                                                              #
 # For a copy of the GNU General Public License, see                            #
@@ -37,13 +37,14 @@ Usage:
 Options:
     -h, --help                 Show this help message.
     --version                  Show the version and exit.
+    -v, --verbose                 Show verbose logging.
     -c, --configuration=CONF   configuration [default: configuration.md]
     -f, --files=FILESLIST      comma-delimited list of input data files
     -u, --username=USERNAME    username
 """
 
 programName    = "propyte"
-programVersion = "2014-09-16T1036"
+programVersion = "2014-10-21T0948Z"
 
 import os
 import sys
@@ -136,18 +137,30 @@ class Program(object):
             self.userName = os.getenv("USER")
         if self.files is not None:
             self.files = self.files.split(",")
+        if "--verbose" in options:
+            self.verbose        = True
+        else:
+            self.verbose        = False
+
 
         ## standard logging
         #global logger
         #logger = logging.getLogger(__name__)
+        ##logger = logging.getLogger()
         #logging.basicConfig()
-        #logger.level = logging.INFO
 
         # technicolor logging
         global logger
-        logger = logging.getLogger()
+        logger = logging.getLogger(__name__)
+        #logger = logging.getLogger()
         logger.setLevel(logging.DEBUG)
         logger.addHandler(technicolor.ColorisingStreamHandler())
+
+        # logging level
+        if self.verbose:
+            logger.setLevel(logging.DEBUG)
+        else:
+            logger.setLevel(logging.INFO)
 
         # run alert
         logger.info("running {name}".format(name = self.name))
