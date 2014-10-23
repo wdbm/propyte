@@ -44,12 +44,13 @@ Options:
 """
 
 programName    = "propyte"
-programVersion = "2014-10-21T0948Z"
+programVersion = "2014-10-23T2300Z"
 
 import os
 import sys
 import subprocess
 import time
+import datetime as datetime
 import logging
 import technicolor as technicolor
 from   docopt import docopt
@@ -63,6 +64,10 @@ def main(options):
 
     logger.info("This is {programName} running.".format(
         programName = program.name
+    ))
+
+    logger.info("time: {time}".format(
+        time = time_UTC()
     ))
 
     # Print the program options dictionary and the program configuration
@@ -111,6 +116,21 @@ def main(options):
     logger.error('message at level ERROR')
     logger.critical('message at level CRITICAL')
 
+    # activity
+    time.sleep(2)
+
+    logger.info("run start time: {time}".format(
+        time = program.startTime()
+    ))
+
+    logger.info("time: {time}".format(
+        time = time_UTC()
+    ))
+
+    logger.info("run time: {time} s".format(
+        time = program.runTime()
+    ))
+
     logger.info("This is {programName} terminating.".format(
         programName = program.name
     ))
@@ -122,6 +142,9 @@ class Program(object):
         parent  = None,
         options = None
         ):
+
+        # time
+        self.__startTime           = datetime.datetime.utcnow()
 
         # name
         self.name                  = programName
@@ -138,10 +161,9 @@ class Program(object):
         if self.files is not None:
             self.files = self.files.split(",")
         if "--verbose" in options:
-            self.verbose        = True
+            self.verbose           = True
         else:
-            self.verbose        = False
-
+            self.verbose           = False
 
         ## standard logging
         #global logger
@@ -169,6 +191,56 @@ class Program(object):
         self.configuration = pyrecon.openConfiguration(
             self.configurationFileName
         )
+
+    def startTime(
+        self,
+        style = None
+        ):
+        return(
+            style_datetime_object(
+                datetimeObject = self.__startTime,
+                style = style
+            )
+        )
+        return style_datetime_object(datetimeObject = self.__startTime, style = "")
+
+    def runTime(
+        self
+        ):
+        return((datetime.datetime.utcnow() - self.__startTime).total_seconds())
+
+def time_UTC(
+    style = None
+    ):
+    return(
+        style_datetime_object(
+            datetimeObject = datetime.datetime.utcnow(),
+            style = style
+        )
+    )
+
+def style_datetime_object(
+    datetimeObject = None,
+    style = "YYYY-MM-DDTHHMMSS"
+    ):
+    # filename safe
+    if style == "YYYY-MM-DDTHHMMSSZ":
+        return(datetimeObject.strftime('%Y-%m-%dT%H%M%SZ'))
+    # microseconds
+    elif style == "YYYY-MM-DDTHHMMSSMMMMMMZ":
+        return(datetimeObject.strftime('%Y-%m-%dT%H%M%S%fZ'))
+    # elegant
+    elif style == "YYYY-MM-DD HH:MM:SS UTC":
+        return(datetimeObject.strftime('%Y-%m-%d %H:%M:%SZ'))
+    # UNIX time in seconds with second fraction
+    elif style == "UNIX time S.SSSSSS":
+        return((datetimeObject - datetime.datetime.utcfromtimestamp(0)).total_seconds())
+    # UNIX time in seconds rounded
+    elif style == "UNIX time S":
+        return(int((datetimeObject - datetime.datetime.utcfromtimestamp(0)).total_seconds()))
+    # filename safe
+    else:
+        return(datetimeObject.strftime('%Y-%m-%dT%H%M%SZ'))
 
 if __name__ == "__main__":
 
