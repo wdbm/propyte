@@ -8,7 +8,7 @@ This is a template Python program.
 
 ### docopt
 
-    sudo apt-get -y install python-docopt
+    sudo pip install docopt
 
 ### pyprel
 
