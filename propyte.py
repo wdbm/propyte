@@ -64,6 +64,7 @@ import technicolor as technicolor
 from   docopt import docopt
 import pyrecon as pyrecon
 import pyprel as pyprel
+import shijian as shijian
 
 def main(options):
 
@@ -75,7 +76,7 @@ def main(options):
     ))
 
     logger.info("time: {time}".format(
-        time = time_UTC()
+        time = shijian.time_UTC()
     ))
 
     # Print the program options dictionary and the program configuration
@@ -132,7 +133,7 @@ def main(options):
     ))
 
     logger.info("time: {time}".format(
-        time = time_UTC()
+        time = shijian.time_UTC()
     ))
 
     logger.info("run time: {time} s".format(
@@ -214,50 +215,22 @@ class Program(object):
         style = None
         ):
         return(
-            style_datetime_object(
+            shijian.style_datetime_object(
                 datetimeObject = self.__startTime,
                 style = style
             )
         )
-        return style_datetime_object(datetimeObject = self.__startTime, style = "")
+        return(
+            shijian.style_datetime_object(
+                datetimeObject = self.__startTime,
+                style = ""
+            )
+        )
 
     def runTime(
         self
         ):
         return((datetime.datetime.utcnow() - self.__startTime).total_seconds())
-
-def time_UTC(
-    style = None
-    ):
-    return(
-        style_datetime_object(
-            datetimeObject = datetime.datetime.utcnow(),
-            style = style
-        )
-    )
-
-def style_datetime_object(
-    datetimeObject = None,
-    style = "YYYY-MM-DDTHHMMSS"
-    ):
-    # filename safe
-    if style == "YYYY-MM-DDTHHMMSSZ":
-        return(datetimeObject.strftime('%Y-%m-%dT%H%M%SZ'))
-    # microseconds
-    elif style == "YYYY-MM-DDTHHMMSSMMMMMMZ":
-        return(datetimeObject.strftime('%Y-%m-%dT%H%M%S%fZ'))
-    # elegant
-    elif style == "YYYY-MM-DD HH:MM:SS UTC":
-        return(datetimeObject.strftime('%Y-%m-%d %H:%M:%SZ'))
-    # UNIX time in seconds with second fraction
-    elif style == "UNIX time S.SSSSSS":
-        return((datetimeObject - datetime.datetime.utcfromtimestamp(0)).total_seconds())
-    # UNIX time in seconds rounded
-    elif style == "UNIX time S":
-        return(int((datetimeObject - datetime.datetime.utcfromtimestamp(0)).total_seconds()))
-    # filename safe
-    else:
-        return(datetimeObject.strftime('%Y-%m-%dT%H%M%SZ'))
 
 if __name__ == "__main__":
 
