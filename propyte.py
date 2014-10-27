@@ -44,7 +44,15 @@ Options:
 """
 
 programName    = "propyte"
-programVersion = "2014-10-23T2300Z"
+programVersion = "2014-10-27T1927Z"
+programLogo = (
+"    ____  ____  ____  ______  ______________\n"
+"   / __ \/ __ \/ __ \/ __ \ \/ /_  __/ ____/\n"
+"  / /_/ / /_/ / / / / /_/ /\  / / / / __/   \n"
+" / ____/ _, _/ /_/ / ____/ / / / / / /___   \n"
+"/_/   /_/ |_|\____/_/     /_/ /_/ /_____/   \n"
+"                                            "
+)
 
 import os
 import sys
@@ -183,6 +191,10 @@ class Program(object):
             logger.setLevel(logging.DEBUG)
         else:
             logger.setLevel(logging.INFO)
+
+        # logo
+        if programLogo:
+            logger.info(pyprel.centerString(text = programLogo))
 
         # run alert
         logger.info("running {name}".format(name = self.name))
