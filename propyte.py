@@ -154,8 +154,10 @@ class Program(object):
         # time
         self.__startTime           = datetime.datetime.utcnow()
 
-        # name
+        # name, version, logo
         self.name                  = programName
+        self.version               = programVersion
+        self.logo                  = programLogo
 
         # options
         self.options               = options
@@ -194,10 +196,13 @@ class Program(object):
 
         # logo
         if programLogo:
-            logger.info(pyprel.centerString(text = programLogo))
+            logger.info(pyprel.centerString(text = self.logo))
 
         # run alert
         logger.info("running {name}".format(name = self.name))
+
+        # version
+        logger.info("version: {version}".format(version = self.version))
 
         # configuration
         self.configuration = pyrecon.openConfiguration(
