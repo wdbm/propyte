@@ -18,6 +18,10 @@ This is a template Python program.
 
 - [pyrecon](https://github.com/wdbm/pyrecon)
 
+### shijian
+
+- [shijian](https://github.com/wdbm/shijian)
+
 ### technicolor
 
 - [technicolor](https://github.com/wdbm/technicolor)

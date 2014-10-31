@@ -158,7 +158,8 @@ class Program(object):
         # name, version, logo
         self.name                  = programName
         self.version               = programVersion
-        self.logo                  = programLogo
+        if programLogo:
+            self.logo              = programLogo
 
         # options
         self.options               = options
@@ -196,7 +197,7 @@ class Program(object):
             logger.setLevel(logging.INFO)
 
         # logo
-        if programLogo:
+        if self.logo:
             logger.info(pyprel.centerString(text = self.logo))
 
         # run alert
