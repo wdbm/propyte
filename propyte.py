@@ -37,14 +37,14 @@ Usage:
 Options:
     -h, --help                 Show this help message.
     --version                  Show the version and exit.
-    -v, --verbose                 Show verbose logging.
+    -v, --verbose              Show verbose logging.
     -c, --configuration=CONF   configuration [default: configuration.md]
     -f, --files=FILESLIST      comma-delimited list of input data files
     -u, --username=USERNAME    username
 """
 
 programName    = "propyte"
-programVersion = "2014-10-27T1927Z"
+programVersion = "2014-11-06T1853Z"
 programLogo = (
 "    ____  ____  ____  ______  ______________\n"
 "   / __ \/ __ \/ __ \/ __ \ \/ /_  __/ ____/\n"
@@ -70,14 +70,6 @@ def main(options):
 
     global program
     program = Program(options = options)
-
-    logger.info("This is {programName} running.".format(
-        programName = program.name
-    ))
-
-    logger.info("time: {time}".format(
-        time = shijian.time_UTC()
-    ))
 
     # Print the program options dictionary and the program configuration
     # dictionary.
@@ -128,21 +120,7 @@ def main(options):
     # activity
     time.sleep(2)
 
-    logger.info("run start time: {time}".format(
-        time = program.startTime()
-    ))
-
-    logger.info("time: {time}".format(
-        time = shijian.time_UTC()
-    ))
-
-    logger.info("run time: {time} s".format(
-        time = program.runTime()
-    ))
-
-    logger.info("This is {programName} terminating.".format(
-        programName = program.name
-    ))
+    program.terminate()
 
 class Program(object):
 
@@ -156,8 +134,10 @@ class Program(object):
         self.__startTime           = datetime.datetime.utcnow()
 
         # name, version, logo
-        self.name                  = programName
-        self.version               = programVersion
+        if programName:
+            self.name              = programName
+        if programVersion:
+            self.version           = programVersion
         if programLogo:
             self.logo              = programLogo
 
@@ -166,16 +146,16 @@ class Program(object):
         self.userName              = self.options["--username"]
         self.files                 = self.options["--files"]
         self.configurationFileName = self.options["--configuration"]
+        if "--verbose" in options:
+            self.verbose           = True
+        else:
+            self.verbose           = False
 
         # default values
         if self.userName is None:
             self.userName = os.getenv("USER")
         if self.files is not None:
             self.files = self.files.split(",")
-        if "--verbose" in options:
-            self.verbose           = True
-        else:
-            self.verbose           = False
 
         ## standard logging
         #global logger
@@ -196,20 +176,48 @@ class Program(object):
         else:
             logger.setLevel(logging.INFO)
 
-        # logo
-        if self.logo:
-            logger.info(pyprel.centerString(text = self.logo))
-
-        # run alert
-        logger.info("running {name}".format(name = self.name))
-
-        # version
-        logger.info("version: {version}".format(version = self.version))
+        self.engage()
 
         # configuration
         self.configuration = pyrecon.openConfiguration(
             self.configurationFileName
         )
+
+    def engage(
+        self
+        ):
+        pyprel.printLine()
+        # logo
+        if self.logo:
+            logger.info(pyprel.centerString(text = self.logo))
+        pyprel.printLine()
+        # engage alert
+        if self.name:
+            logger.info("engage {programName}".format(
+                programName = self.name
+            ))
+        # version
+        if self.version:
+            logger.info("version: {version}".format(
+                version = self.version
+            ))
+        logger.info("time: {time}".format(
+            time = shijian.time_UTC()
+        ))
+
+    def terminate(
+        self
+        ):
+        logger.info("time: {time}".format(
+            time = shijian.time_UTC()
+        ))
+        logger.info("run time: {time} s".format(
+            time = self.runTime()
+        ))
+        logger.info("terminate {programName}".format(
+            programName = self.name
+        ))
+        pyprel.printLine()
 
     def startTime(
         self,
