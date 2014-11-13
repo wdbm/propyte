@@ -44,15 +44,15 @@ Options:
 """
 
 programName    = "propyte"
-programVersion = "2014-11-06T1853Z"
-programLogo = (
-"    ____  ____  ____  ______  ______________\n"
-"   / __ \/ __ \/ __ \/ __ \ \/ /_  __/ ____/\n"
-"  / /_/ / /_/ / / / / /_/ /\  / / / / __/   \n"
-" / ____/ _, _/ /_/ / ____/ / / / / / /___   \n"
-"/_/   /_/ |_|\____/_/     /_/ /_/ /_____/   \n"
-"                                            "
-)
+programVersion = "2014-11-13T1139Z"
+#programLogo = (
+#"    ____  ____  ____  ______  ______________\n"
+#"   / __ \/ __ \/ __ \/ __ \ \/ /_  __/ ____/\n"
+#"  / /_/ / /_/ / / / / /_/ /\  / / / / __/   \n"
+#" / ____/ _, _/ /_/ / ____/ / / / / / /___   \n"
+#"/_/   /_/ |_|\____/_/     /_/ /_/ /_____/   \n"
+#"                                            "
+#)
 
 import os
 import sys
@@ -130,16 +130,30 @@ class Program(object):
         options = None
         ):
 
+        # internal options
+        self.displayLogo           = True
+
         # time
         self.__startTime           = datetime.datetime.utcnow()
 
         # name, version, logo
-        if programName:
+        if "programName" in globals():
             self.name              = programName
-        if programVersion:
+        else:
+            self.name              = None
+        if "programVersion" in globals():
             self.version           = programVersion
-        if programLogo:
+        else:
+            self.version           = None
+        if "programLogo" in globals():
             self.logo              = programLogo
+        elif "programLogo" not in globals() and hasattr(self, "name"):
+            self.logo              = pyprel.renderBanner(
+                                         text = self.name.upper()
+                                     )
+        else:
+            self.displayLogo       = False
+            self.logo              = None
 
         # options
         self.options               = options
@@ -188,9 +202,9 @@ class Program(object):
         ):
         pyprel.printLine()
         # logo
-        if self.logo:
+        if self.displayLogo:
             logger.info(pyprel.centerString(text = self.logo))
-        pyprel.printLine()
+            pyprel.printLine()
         # engage alert
         if self.name:
             logger.info("engage {programName}".format(

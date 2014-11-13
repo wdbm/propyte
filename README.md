@@ -10,6 +10,10 @@ This is a template Python program.
 
     sudo pip install docopt
 
+### pyfiglet
+
+    sudo pip install pyfiglet
+
 ### pyprel
 
 - [pyprel](https://github.com/wdbm/pyprel)
