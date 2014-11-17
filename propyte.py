@@ -43,9 +43,9 @@ Options:
     -f, --files=FILESLIST      comma-delimited list of input data files
 """
 
-programName    = "propyte"
-programVersion = "2014-11-13T1139Z"
-#programLogo = (
+name    = "propyte"
+version = "2014-11-13T1139Z"
+#logo = (
 #"    ____  ____  ____  ______  ______________\n"
 #"   / __ \/ __ \/ __ \/ __ \ \/ /_  __/ ____/\n"
 #"  / /_/ / /_/ / / / / /_/ /\  / / / / __/   \n"
@@ -137,17 +137,17 @@ class Program(object):
         self.__startTime           = datetime.datetime.utcnow()
 
         # name, version, logo
-        if "programName" in globals():
-            self.name              = programName
+        if "name" in globals():
+            self.name              = name
         else:
             self.name              = None
-        if "programVersion" in globals():
-            self.version           = programVersion
+        if "version" in globals():
+            self.version           = version
         else:
             self.version           = None
-        if "programLogo" in globals():
-            self.logo              = programLogo
-        elif "programLogo" not in globals() and hasattr(self, "name"):
+        if "logo" in globals():
+            self.logo              = logo
+        elif "logo" not in globals() and hasattr(self, "name"):
             self.logo              = pyprel.renderBanner(
                                          text = self.name.upper()
                                      )
@@ -207,8 +207,8 @@ class Program(object):
             pyprel.printLine()
         # engage alert
         if self.name:
-            logger.info("engage {programName}".format(
-                programName = self.name
+            logger.info("engage {name}".format(
+                name = self.name
             ))
         # version
         if self.version:
@@ -228,8 +228,8 @@ class Program(object):
         logger.info("run time: {time} s".format(
             time = self.runTime()
         ))
-        logger.info("terminate {programName}".format(
-            programName = self.name
+        logger.info("terminate {name}".format(
+            name = self.name
         ))
         pyprel.printLine()
 
@@ -259,6 +259,6 @@ if __name__ == "__main__":
 
     options = docopt(__doc__)
     if options["--version"]:
-        print(programVersion)
+        print(version)
         exit()
     main(options)
