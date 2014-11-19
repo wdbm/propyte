@@ -74,17 +74,17 @@ def main(options):
     # Print the program options dictionary and the program configuration
     # dictionary.
     pyprel.printLine()
-    logger.info("program options dictionary:")
+    log.info("program options dictionary:")
     pyprel.printDictionary(dictionary = program.options)
     pyprel.printLine()
-    logger.info("program configuration dictionary:")
+    log.info("program configuration dictionary:")
     pyprel.printDictionary(dictionary = program.configuration)
     pyprel.printLine()
 
     # Access a value of the program configuration dictionary.
-    logger.info("accessing a value of the program configuration")
+    log.info("accessing a value of the program configuration")
     if "attribute1" in program.configuration["settings1"]["item1"]:
-        logger.info("attribute1 of item2 of settings1: {attribute}".format(
+        log.info("attribute1 of item2 of settings1: {attribute}".format(
             attribute = program.configuration
                 ["settings1"]
                     ["item1"]
@@ -93,8 +93,8 @@ def main(options):
 
     # Access a value of the program configuration dictionary that does not exist
     # and then assign to it a default value.
-    logger.info("accessing a nonexistent value of the program configuration")
-    logger.info("attribute3 of item1 of settings1: {attribute}".format(
+    log.info("accessing a nonexistent value of the program configuration")
+    log.info("attribute3 of item1 of settings1: {attribute}".format(
         attribute = program.configuration
             ["settings1"]
                 ["item1"]
@@ -102,20 +102,20 @@ def main(options):
     ))
 
     # Loop over multiple values of the program configuration dictionary.
-    logger.info("loading items of settings1")
+    log.info("loading items of settings1")
     for name, attributes in program.configuration["settings1"].iteritems():
-        logger.info("loading item {name}".format(
+        log.info("loading item {name}".format(
             name = name
         ))
-        logger.info("attributes of item 2 of settings 1: {attributes}".format(
+        log.info("attributes of item 2 of settings 1: {attributes}".format(
             attributes = attributes
         ))
 
-    logger.debug('message at level DEBUG')
-    logger.info('message at level INFO')
-    logger.warning('message at level WARNING')
-    logger.error('message at level ERROR')
-    logger.critical('message at level CRITICAL')
+    log.debug('message at level DEBUG')
+    log.info('message at level INFO')
+    log.warning('message at level WARNING')
+    log.error('message at level ERROR')
+    log.critical('message at level CRITICAL')
 
     # activity
     time.sleep(2)
@@ -172,23 +172,23 @@ class Program(object):
             self.files = self.files.split(",")
 
         ## standard logging
-        #global logger
-        #logger = logging.getLogger(__name__)
-        ##logger = logging.getLogger()
+        #global log
+        #log = logging.getLogger(__name__)
+        ##log = logging.getLogger()
         #logging.basicConfig()
 
         # technicolor logging
-        global logger
-        logger = logging.getLogger(__name__)
-        #logger = logging.getLogger()
-        logger.setLevel(logging.DEBUG)
-        logger.addHandler(technicolor.ColorisingStreamHandler())
+        global log
+        log = logging.getLogger(__name__)
+        #log = logging.getLogger()
+        log.setLevel(logging.DEBUG)
+        log.addHandler(technicolor.ColorisingStreamHandler())
 
         # logging level
         if self.verbose:
-            logger.setLevel(logging.DEBUG)
+            log.setLevel(logging.DEBUG)
         else:
-            logger.setLevel(logging.INFO)
+            log.setLevel(logging.INFO)
 
         self.engage()
 
@@ -203,32 +203,32 @@ class Program(object):
         pyprel.printLine()
         # logo
         if self.displayLogo:
-            logger.info(pyprel.centerString(text = self.logo))
+            log.info(pyprel.centerString(text = self.logo))
             pyprel.printLine()
         # engage alert
         if self.name:
-            logger.info("engage {name}".format(
+            log.info("engage {name}".format(
                 name = self.name
             ))
         # version
         if self.version:
-            logger.info("version: {version}".format(
+            log.info("version: {version}".format(
                 version = self.version
             ))
-        logger.info("time: {time}".format(
+        log.info("time: {time}".format(
             time = shijian.time_UTC()
         ))
 
     def terminate(
         self
         ):
-        logger.info("time: {time}".format(
+        log.info("time: {time}".format(
             time = shijian.time_UTC()
         ))
-        logger.info("run time: {time} s".format(
+        log.info("run time: {time} s".format(
             time = self.runTime()
         ))
-        logger.info("terminate {name}".format(
+        log.info("terminate {name}".format(
             name = self.name
         ))
         pyprel.printLine()
