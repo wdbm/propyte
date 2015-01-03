@@ -22,6 +22,19 @@ wget https://raw.githubusercontent.com/wdbm/technicolor/master/technicolor.py
 
 This is a template Python program.
 
+# UML
+
+UML diagrams of a Python project can be generated using Pylint and Graphviz. This can be done by executing the Bash script ```UML.sh``` in the working directory of the project. This executes the following commands:
+
+```Bash
+projectName="${PWD##*/}"
+pyreverse -my -A -o png -p ${projectName} **.py
+```
+
+This should generate two images, ```classes_propyte.png``` and ```packages_propyte.png```. The classes image is a representation of the classes of the project, their respective data attributes (with types), their respective methods and their inheritances. The packages image is a representation of the module dependencies of the project.
+
+![](images/packages_propyte.png)
+
 # prerequisites
 
 ## docopt
