@@ -2,43 +2,59 @@
 
 # quick start
 
+The following Bash commands, that have been tested on Ubuntu 14.10, should install prerequisites, check out propyte and then generate UML diagrams of the code.
+
 ```Bash
 sudo pip install docopt
 sudo pip install pyfiglet
+sudo apt-get -y install graphviz libgraphviz-dev python-dev
+sudo pip install pylint pygraphviz
 git clone https://github.com/wdbm/propyte.git
 cd propyte/
 wget https://raw.githubusercontent.com/wdbm/pyprel/master/pyprel.py
 wget https://raw.githubusercontent.com/wdbm/pyrecon/master/pyrecon.py
 wget https://raw.githubusercontent.com/wdbm/shijian/master/shijian.py
 wget https://raw.githubusercontent.com/wdbm/technicolor/master/technicolor.py
+./UML.sh
 ```
 
-## introduction
+# introduction
 
 This is a template Python program.
 
-## prerequisites
+# prerequisites
 
-### docopt
+## docopt
 
-    sudo pip install docopt
+```Bash
+sudo pip install docopt
+```
 
-### pyfiglet
+## pyfiglet
 
-    sudo pip install pyfiglet
+```Bash
+sudo pip install pyfiglet
+```
 
-### pyprel
+## pyprel
 
 - [pyprel](https://github.com/wdbm/pyprel)
 
-### pyrecon
+## pyrecon
 
 - [pyrecon](https://github.com/wdbm/pyrecon)
 
-### shijian
+## shijian
 
 - [shijian](https://github.com/wdbm/shijian)
 
-### technicolor
+## technicolor
 
 - [technicolor](https://github.com/wdbm/technicolor)
+
+## Pylint, Graphviz (UML prerequisites)
+
+```Bash
+sudo apt-get -y install graphviz libgraphviz-dev python-dev
+sudo pip install pylint pygraphviz
+```
