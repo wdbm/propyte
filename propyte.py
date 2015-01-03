@@ -44,7 +44,7 @@ Options:
 """
 
 name    = "propyte"
-version = "2014-11-13T1139Z"
+version = "2015-01-03T1259Z"
 #logo = (
 #"    ____  ____  ____  ______  ______________\n"
 #"   / __ \/ __ \/ __ \/ __ \ \/ /_  __/ ____/\n"
@@ -58,13 +58,15 @@ import os
 import sys
 import subprocess
 import time
-import datetime as datetime
+import datetime
 import logging
-import technicolor as technicolor
-from   docopt import docopt
-import pyrecon as pyrecon
-import pyprel as pyprel
-import shijian as shijian
+import inspect
+import docopt
+import technicolor
+import pyrecon
+import pyprel
+import shijian
+
 
 def main(options):
 
@@ -119,8 +121,22 @@ def main(options):
 
     # activity
     time.sleep(2)
-
+    log.info("\nrun function 1 three times...")
+    for runNumber in xrange(1, 4):
+        log.info("function 1 run {runNumber} result: {result}".format(
+            runNumber = runNumber,
+            result    = function1()
+        ))
+    log.info("")
     program.terminate()
+
+@shijian.timer
+def function1():
+    functionName = inspect.stack()[0][3]
+    print("initiate {functionName}".format(functionName = functionName))
+    time.sleep(4)
+    print("terminate {functionName}".format(functionName = functionName))
+    return(4)
 
 class Program(object):
 
@@ -133,8 +149,9 @@ class Program(object):
         # internal options
         self.displayLogo           = True
 
-        # time
-        self.__startTime           = datetime.datetime.utcnow()
+        # clock
+        global clock
+        clock = shijian.Clock(name = "program run time")
 
         # name, version, logo
         if "name" in globals():
@@ -207,7 +224,7 @@ class Program(object):
             pyprel.printLine()
         # engage alert
         if self.name:
-            log.info("engage {name}".format(
+            log.info("initiate {name}".format(
                 name = self.name
             ))
         # version
@@ -215,49 +232,31 @@ class Program(object):
             log.info("version: {version}".format(
                 version = self.version
             ))
-        log.info("time: {time}".format(
-            time = shijian.time_UTC()
+        log.info("initiation time: {time}".format(
+            time = clock.startTime()
         ))
 
     def terminate(
         self
         ):
-        log.info("time: {time}".format(
-            time = shijian.time_UTC()
+        clock.stop()
+        log.info("termination time: {time}".format(
+            time = clock.stopTime()
         ))
-        log.info("run time: {time} s".format(
-            time = self.runTime()
+        log.info("time full report:\n{report}".format(
+            report = shijian.clocks.report(style = "full")
+        ))
+        log.info("time statistics report:\n{report}".format(
+            report = shijian.clocks.report()
         ))
         log.info("terminate {name}".format(
             name = self.name
         ))
         pyprel.printLine()
 
-    def startTime(
-        self,
-        style = None
-        ):
-        return(
-            shijian.style_datetime_object(
-                datetimeObject = self.__startTime,
-                style = style
-            )
-        )
-        return(
-            shijian.style_datetime_object(
-                datetimeObject = self.__startTime,
-                style = ""
-            )
-        )
-
-    def runTime(
-        self
-        ):
-        return((datetime.datetime.utcnow() - self.__startTime).total_seconds())
-
 if __name__ == "__main__":
 
-    options = docopt(__doc__)
+    options = docopt.docopt(__doc__)
     if options["--version"]:
         print(version)
         exit()
