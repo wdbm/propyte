@@ -67,7 +67,6 @@ import pyrecon
 import pyprel
 import shijian
 
-
 def main(options):
 
     global program
@@ -113,11 +112,11 @@ def main(options):
             attributes = attributes
         ))
 
-    log.debug('message at level DEBUG')
-    log.info('message at level INFO')
-    log.warning('message at level WARNING')
-    log.error('message at level ERROR')
-    log.critical('message at level CRITICAL')
+    log.debug("message at level DEBUG")
+    log.info("message at level INFO")
+    log.warning("message at level WARNING")
+    log.error("message at level ERROR")
+    log.critical("message at level CRITICAL")
 
     # activity
     time.sleep(2)
