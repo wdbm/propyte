@@ -44,7 +44,7 @@ Options:
 """
 
 name    = "propyte"
-version = "2015-01-03T1259Z"
+version = "2015-01-05T1459Z"
 #logo = (
 #"    ____  ____  ____  ______  ______________\n"
 #"   / __ \/ __ \/ __ \/ __ \ \/ /_  __/ ____/\n"
@@ -60,11 +60,11 @@ import subprocess
 import time
 import datetime
 import logging
+import technicolor
 import inspect
 import docopt
-import technicolor
-import pyrecon
 import pyprel
+import pyrecon
 import shijian
 
 def main(options):
