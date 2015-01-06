@@ -44,15 +44,7 @@ Options:
 """
 
 name    = "propyte"
-version = "2015-01-05T1459Z"
-#logo = (
-#"    ____  ____  ____  ______  ______________\n"
-#"   / __ \/ __ \/ __ \/ __ \ \/ /_  __/ ____/\n"
-#"  / /_/ / /_/ / / / / /_/ /\  / / / / __/   \n"
-#" / ____/ _, _/ /_/ / ____/ / / / / / /___   \n"
-#"/_/   /_/ |_|\____/_/     /_/ /_/ /_____/   \n"
-#"                                            "
-#)
+version = "2015-01-06T1513Z"
 
 import os
 import sys
@@ -176,10 +168,7 @@ class Program(object):
         self.userName              = self.options["--username"]
         self.files                 = self.options["--files"]
         self.configurationFileName = self.options["--configuration"]
-        if "--verbose" in options:
-            self.verbose           = True
-        else:
-            self.verbose           = False
+        self.verbose               = self.options["--verbose"]
 
         # default values
         if self.userName is None:
@@ -187,24 +176,16 @@ class Program(object):
         if self.files is not None:
             self.files = self.files.split(",")
 
-        ## standard logging
-        #global log
-        #log = logging.getLogger(__name__)
-        ##log = logging.getLogger()
-        #logging.basicConfig()
-
-        # technicolor logging
+        # logging
         global log
         log = logging.getLogger(__name__)
-        #log = logging.getLogger()
-        log.setLevel(logging.DEBUG)
-        log.addHandler(technicolor.ColorisingStreamHandler())
+        logging.root.addHandler(technicolor.ColorisingStreamHandler())
 
         # logging level
         if self.verbose:
-            log.setLevel(logging.DEBUG)
+            logging.root.setLevel(logging.DEBUG)
         else:
-            log.setLevel(logging.INFO)
+            logging.root.setLevel(logging.INFO)
 
         self.engage()
 
