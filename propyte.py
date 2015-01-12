@@ -44,7 +44,7 @@ Options:
 """
 
 name    = "propyte"
-version = "2015-01-06T1513Z"
+version = "2015-01-12T1537Z"
 
 import os
 import sys
@@ -166,9 +166,9 @@ class Program(object):
         # options
         self.options               = options
         self.userName              = self.options["--username"]
+        self.verbose               = self.options["--verbose"]
         self.files                 = self.options["--files"]
         self.configurationFileName = self.options["--configuration"]
-        self.verbose               = self.options["--verbose"]
 
         # default values
         if self.userName is None:
