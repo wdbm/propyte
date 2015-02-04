@@ -35,9 +35,9 @@ Usage:
     program [options]
 
 Options:
-    -h, --help                 Show this help message.
-    --version                  Show the version and exit.
-    -v, --verbose              Show verbose logging.
+    -h, --help                 display help message
+    --version                  display version and exit
+    -v, --verbose              verbose logging
     -u, --username=USERNAME    username
     -c, --configuration=CONF   configuration [default: configuration.md]
     -f, --files=FILESLIST      comma-delimited list of input data files
