@@ -3,7 +3,7 @@
 """
 ################################################################################
 #                                                                              #
-# propyte                                                                      #
+# propyte-1                                                                    #
 #                                                                              #
 ################################################################################
 #                                                                              #
@@ -43,8 +43,8 @@ Options:
     -f, --files=FILESLIST      comma-delimited list of input data files
 """
 
-name    = "propyte"
-version = "2015-01-12T1537Z"
+name    = "propyte-1"
+version = "2015-10-21T1245Z"
 
 import os
 import sys
