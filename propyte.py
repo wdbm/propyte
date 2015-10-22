@@ -31,7 +31,7 @@
 """
 
 name    = "propyte"
-version = "2015-10-22T1338Z"
+version = "2015-10-22T1405Z"
 
 import os
 import sys
@@ -138,13 +138,6 @@ class Program(object):
             pyprel.printLine()
         sys.exit()
 
-if __name__ == "__main__":
-    options = docopt.docopt(__doc__)
-    if options["--version"]:
-        print(version)
-        exit()
-    main(options)
-    
 def smuggle(
     moduleName = None,
     URL        = None
@@ -169,3 +162,10 @@ def smuggle(
                 )
             )
             sys.exit()
+
+if __name__ == "__main__":
+    options = docopt.docopt(__doc__)
+    if options["--version"]:
+        print(version)
+        exit()
+    main(options)
