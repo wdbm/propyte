@@ -31,7 +31,7 @@
 """
 
 name    = "propyte"
-version = "2015-10-22T1331Z"
+version = "2015-10-22T1338Z"
 
 import os
 import sys
@@ -53,33 +53,32 @@ class Program(object):
         name         = None,
         version      = None,
         logo         = None,
-        engageLog    = True,
-        engageSilent = False
+        engageLog    = True
         ):
 
         global clock
         clock = shijian.Clock(name = "program run time")
 
         # internal options
-        self.displayLogo           = True
+        self.displayLogo     = True
 
-        self.options               = options
-        self.userName              = self.options["--username"]
-        self.verbose               = self.options["--verbose"]
+        self.options         = options
+        self.userName        = self.options["--username"]
+        self.verbose         = self.options["--verbose"]
+        self.silent          = self.options["--silent"]
 
-        self.name                  = name
-        self.version               = version
-        self.logo                  = logo
-        self.engageSilent          = engageSilent
+        self.name            = name
+        self.version         = version
+        self.logo            = logo
 
         if self.userName is None:
-            self.userName = os.getenv("USER")
+            self.userName    = os.getenv("USER")
         if self.logo is None and self.name is not None:
-            self.logo              = pyprel.renderBanner(
-                                         text = self.name.upper()
-                                     )
+            self.logo        = pyprel.renderBanner(
+                                  text = self.name.upper()
+                               )
         else:
-            self.displayLogo       = False
+            self.displayLogo = False
 
         # logging
         if engageLog:
@@ -98,30 +97,35 @@ class Program(object):
     def engage(
         self
         ):
-        if not self.engageSilent: pyprel.printLine()
+        if not self.silent:
+            pyprel.printLine()
         # logo
         if self.displayLogo:
-            if not self.engageSilent: log.info(pyprel.centerString(text = self.logo))
-            if not self.engageSilent: pyprel.printLine()
+            if not self.silent:
+                log.info(pyprel.centerString(text = self.logo))
+                pyprel.printLine()
         # engage alert
         if self.name:
-            if not self.engageSilent: log.info("initiate {name}".format(
-                name = self.name
-            ))
+            if not self.silent:
+                log.info("initiate {name}".format(
+                    name = self.name
+                ))
         # version
         if self.version:
-            if not self.engageSilent: log.info("version: {version}".format(
-                version = self.version
+            if not self.silent:
+                log.info("version: {version}".format(
+                    version = self.version
+                ))
+        if not self.silent:
+            log.info("initiation time: {time}".format(
+                time = clock.startTime()
             ))
-        if not self.engageSilent: log.info("initiation time: {time}".format(
-            time = clock.startTime()
-        ))
 
     def terminate(
         self
         ):
         clock.stop()
-        if not self.engageSilent:
+        if not self.silent:
             log.info("termination time: {time}".format(
                 time = clock.stopTime()
             ))

@@ -38,12 +38,13 @@ Options:
     -h, --help               display help message
     --version                display version and exit
     -v, --verbose            verbose logging
+    -s, --silent             verbose logging
     -u, --username=USERNAME  username
     --data=FILENAME          input data file [default: data.txt]
 """
 
 name    = "propyte-5"
-version = "2015-10-22T1331Z"
+version = "2015-10-22T1400Z"
 logo    = None
 
 import os
@@ -57,11 +58,10 @@ def main(options):
 
     global program
     program = propyte.Program(
-        options      = options,
-        name         = name,
-        version      = version,
-        logo         = logo,
-        #engageSilent = True
+        options = options,
+        name    = name,
+        version = version,
+        logo    = logo
         )
     from propyte import log
 
@@ -74,11 +74,15 @@ def main(options):
         filename = input_data_filename
     ))
 
+    log.debug("start to print log messages at various levels")
+
     log.debug("message at level DEBUG")
     log.info("message at level INFO")
     log.warning("message at level WARNING")
     log.error("message at level ERROR")
     log.critical("message at level CRITICAL")
+
+    log.debug("stop printing log messages at various levels")
 
     log.info("")
 
