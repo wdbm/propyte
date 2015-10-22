@@ -31,7 +31,7 @@
 """
 
 name    = "propyte"
-version = "2015-10-22T1405Z"
+version = "2015-10-22T1636Z"
 
 import os
 import sys
@@ -59,9 +59,6 @@ class Program(object):
         global clock
         clock = shijian.Clock(name = "program run time")
 
-        # internal options
-        self.displayLogo     = True
-
         self.options         = options
         self.userName        = self.options["--username"]
         self.verbose         = self.options["--verbose"]
@@ -73,10 +70,13 @@ class Program(object):
 
         if self.userName is None:
             self.userName    = os.getenv("USER")
-        if self.logo is None and self.name is not None:
+        if self.logo is not None:
+            self.displayLogo     = True
+        elif self.logo is None and self.name is not None:
             self.logo        = pyprel.renderBanner(
                                   text = self.name.upper()
                                )
+            self.displayLogo = True
         else:
             self.displayLogo = False
 
