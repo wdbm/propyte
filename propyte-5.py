@@ -38,13 +38,13 @@ Options:
     -h, --help               display help message
     --version                display version and exit
     -v, --verbose            verbose logging
-    -s, --silent             verbose logging
+    -s, --silent             silent
     -u, --username=USERNAME  username
     --data=FILENAME          input data file [default: data.txt]
 """
 
 name    = "propyte-5"
-version = "2015-10-22T1400Z"
+version = "2015-10-22T1630Z"
 logo    = None
 
 import os
