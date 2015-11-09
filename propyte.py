@@ -31,7 +31,7 @@
 """
 
 name    = "propyte"
-version = "2015-11-09T1832Z"
+version = "2015-11-09T2215Z"
 
 import os
 import sys
@@ -43,6 +43,7 @@ import urllib
 import imp
 import time
 import docopt
+import contextlib
 
 class Program(object):
 
