@@ -31,7 +31,7 @@
 """
 
 name    = "propyte"
-version = "2015-10-22T1636Z"
+version = "2015-11-09T1832Z"
 
 import os
 import sys
@@ -162,6 +162,17 @@ def smuggle(
                 )
             )
             sys.exit()
+
+@contextlib.contextmanager
+def import_ganzfeld():
+    """
+    Create a context for importing a module such that the module is isolated
+    from command line options and arguments.
+    """
+    tmp = sys.argv
+    sys.argv = []
+    yield
+    sys.argv = tmp
 
 if __name__ == "__main__":
     options = docopt.docopt(__doc__)
