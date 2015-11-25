@@ -11,6 +11,8 @@
 #                                                                              #
 # This program provides template utilities for programs.                       #
 #                                                                              #
+# copyright (C) 2015 Will Breaden Madden, w.bm@cern.ch                         #
+#                                                                              #
 # This software is released under the terms of the GNU General Public License  #
 # version 3 (GPLv3).                                                           #
 #                                                                              #
@@ -31,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2015-11-09T2215Z"
+version = "2015-11-25T1340Z"
 
 import os
 import sys
