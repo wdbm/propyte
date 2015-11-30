@@ -31,10 +31,10 @@
 #                                                                              #
 ################################################################################
 
-Usage:
+usage:
     program [options]
 
-Options:
+options:
     -h, --help               display help message
     --version                display version and exit
     -v, --verbose            verbose logging
@@ -44,7 +44,7 @@ Options:
 """
 
 name    = "propyte-5"
-version = "2015-10-23T1427Z"
+version = "2015-11-30T1314Z"
 logo    = None
 
 import os
