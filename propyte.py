@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2015-11-25T1340Z"
+version = "2015-12-20T2242Z"
 
 import os
 import sys

@@ -8,14 +8,14 @@ def main():
 
     setuptools.setup(
         name             = "propyte",
-        version          = "2015.11.25.1340",
+        version          = "2015.12.20.2242",
         description      = "template Python program",
         long_description = Markdown_to_reStructuredText("README.md"),
         url              = "https://github.com/wdbm/propyte",
         author           = "Will Breaden Madden",
         author_email     = "w.bm@cern.ch",
         license          = "GPLv3",
-        py_modules       = ["v"],
+        py_modules       = ["propyte"],
         entry_points     = """
             [console_scripts]
             propyte = propyte:propyte
