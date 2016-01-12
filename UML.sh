@@ -1,2 +1,2 @@
-projectName="${PWD##*/}"
-pyreverse -my -A -o png -p ${projectName} **.py
+project_name="${PWD##*/}"
+pyreverse -my -A -o png -p ${project_name} **.py

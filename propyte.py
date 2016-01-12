@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2015-12-20T2242Z"
+version = "2016-01-12T1901Z"
 
 import os
 import sys
@@ -51,19 +51,19 @@ class Program(object):
 
     def __init__(
         self,
-        parent       = None,
-        options      = None,
-        name         = None,
-        version      = None,
-        logo         = None,
-        engageLog    = True
+        parent     = None,
+        options    = None,
+        name       = None,
+        version    = None,
+        logo       = None,
+        engage_log = True
         ):
 
         global clock
         clock = shijian.Clock(name = "program run time")
 
         self.options         = options
-        self.userName        = self.options["--username"]
+        self.username        = self.options["--username"]
         self.verbose         = self.options["--verbose"]
         self.silent          = self.options["--silent"]
 
@@ -71,20 +71,20 @@ class Program(object):
         self.version         = version
         self.logo            = logo
 
-        if self.userName is None:
-            self.userName    = os.getenv("USER")
+        if self.username is None:
+            self.username    = os.getenv("USER")
         if self.logo is not None:
-            self.displayLogo     = True
+            self.display_logo = True
         elif self.logo is None and self.name is not None:
-            self.logo        = pyprel.renderBanner(
-                                  text = self.name.upper()
-                               )
-            self.displayLogo = True
+            self.logo = pyprel.render_banner(
+                text = self.name.upper()
+            )
+            self.display_logo = True
         else:
-            self.displayLogo = False
+            self.display_logo = False
 
         # logging
-        if engageLog:
+        if engage_log:
             global log
             log = logging.getLogger(__name__)
             logging.root.addHandler(technicolor.ColorisingStreamHandler())
@@ -101,12 +101,12 @@ class Program(object):
         self
         ):
         if not self.silent:
-            pyprel.printLine()
+            pyprel.print_line()
         # logo
-        if self.displayLogo:
+        if self.display_logo:
             if not self.silent:
-                log.info(pyprel.centerString(text = self.logo))
-                pyprel.printLine()
+                log.info(pyprel.center_string(text = self.logo))
+                pyprel.print_line()
         # engage alert
         if self.name:
             if not self.silent:
@@ -121,7 +121,7 @@ class Program(object):
                 ))
         if not self.silent:
             log.info("initiation time: {time}".format(
-                time = clock.startTime()
+                time = clock.start_time()
             ))
 
     def terminate(
@@ -130,7 +130,7 @@ class Program(object):
         clock.stop()
         if not self.silent:
             log.info("termination time: {time}".format(
-                time = clock.stopTime()
+                time = clock.stop_time()
             ))
             log.info("time statistics report:\n{report}".format(
                 report = shijian.clocks.report()
@@ -138,29 +138,29 @@ class Program(object):
             log.info("terminate {name}".format(
                 name = self.name
             ))
-            pyprel.printLine()
+            pyprel.print_line()
         sys.exit()
 
 def smuggle(
-    moduleName = None,
-    URL        = None
+    module_name = None,
+    URL         = None
     ):
-    if moduleName is None:
-        moduleName = URL
+    if module_name is None:
+        module_name = URL
     try:
-        module = __import__(moduleName)
+        module = __import__(module_name)
         return(module)
     except:
         try:
-            moduleString = urllib.urlopen(URL).read()
+            module_string = urllib.urlopen(URL).read()
             module = imp.new_module("module")
-            exec moduleString in module.__dict__
+            exec module_string in module.__dict__
             return(module)
         except: 
             raise(
                 Exception(
-                    "module {moduleName} import error".format(
-                        moduleName = moduleName
+                    "module {module_name} import error".format(
+                        module_name = module_name
                     )
                 )
             )

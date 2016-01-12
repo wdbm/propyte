@@ -44,7 +44,7 @@ Options:
 """
 
 name    = "propyte-1"
-version = "2015-10-21T1245Z"
+version = "2016-01-12T1916Z"
 
 import os
 import sys
@@ -66,13 +66,13 @@ def main(options):
 
     # Print the program options dictionary and the program configuration
     # dictionary.
-    pyprel.printLine()
+    pyprel.print_line()
     log.info("program options dictionary:")
-    pyprel.printDictionary(dictionary = program.options)
-    pyprel.printLine()
+    pyprel.print_dictionary(dictionary = program.options)
+    pyprel.print_line()
     log.info("program configuration dictionary:")
-    pyprel.printDictionary(dictionary = program.configuration)
-    pyprel.printLine()
+    pyprel.print_dictionary(dictionary = program.configuration)
+    pyprel.print_line()
 
     # Access a value of the program configuration dictionary.
     log.info("accessing a value of the program configuration")
@@ -113,20 +113,20 @@ def main(options):
     # activity
     time.sleep(2)
     log.info("\nrun function 1 three times...")
-    for runNumber in xrange(1, 4):
-        log.info("function 1 run {runNumber} result: {result}".format(
-            runNumber = runNumber,
-            result    = function1()
+    for run_number in xrange(1, 4):
+        log.info("function 1 run {run_number} result: {result}".format(
+            run_number = run_number,
+            result     = function_1()
         ))
     log.info("")
     program.terminate()
 
 @shijian.timer
-def function1():
-    functionName = inspect.stack()[0][3]
-    print("initiate {functionName}".format(functionName = functionName))
+def function_1():
+    function_name = inspect.stack()[0][3]
+    print("initiate {function_name}".format(function_name = function_name))
     time.sleep(4)
-    print("terminate {functionName}".format(functionName = functionName))
+    print("terminate {function_name}".format(function_name = function_name))
     return(4)
 
 class Program(object):
@@ -138,41 +138,41 @@ class Program(object):
         ):
 
         # internal options
-        self.displayLogo           = True
+        self.display_logo           = True
 
         # clock
         global clock
-        clock = shijian.Clock(name = "program run time")
+        clock = shijian.Clock(name  = "program run time")
 
         # name, version, logo
         if "name" in globals():
-            self.name              = name
+            self.name               = name
         else:
-            self.name              = None
+            self.name               = None
         if "version" in globals():
-            self.version           = version
+            self.version            = version
         else:
-            self.version           = None
+            self.version            = None
         if "logo" in globals():
-            self.logo              = logo
+            self.logo               = logo
         elif "logo" not in globals() and hasattr(self, "name"):
-            self.logo              = pyprel.renderBanner(
-                                         text = self.name.upper()
-                                     )
+            self.logo               = pyprel.render_banner(
+                                          text = self.name.upper()
+                                      )
         else:
-            self.displayLogo       = False
-            self.logo              = None
+            self.display_logo       = False
+            self.logo               = None
 
         # options
-        self.options               = options
-        self.userName              = self.options["--username"]
-        self.verbose               = self.options["--verbose"]
-        self.files                 = self.options["--files"]
-        self.configurationFileName = self.options["--configuration"]
+        self.options                = options
+        self.username               = self.options["--username"]
+        self.verbose                = self.options["--verbose"]
+        self.files                  = self.options["--files"]
+        self.configuration_filename = self.options["--configuration"]
 
         # default values
-        if self.userName is None:
-            self.userName = os.getenv("USER")
+        if self.username is None:
+            self.username = os.getenv("USER")
         if self.files is not None:
             self.files = self.files.split(",")
 
@@ -190,18 +190,18 @@ class Program(object):
         self.engage()
 
         # configuration
-        self.configuration = pyrecon.openConfiguration(
-            self.configurationFileName
+        self.configuration = pyrecon.open_configuration(
+            self.configuration_filename
         )
 
     def engage(
         self
         ):
-        pyprel.printLine()
+        pyprel.print_line()
         # logo
-        if self.displayLogo:
-            log.info(pyprel.centerString(text = self.logo))
-            pyprel.printLine()
+        if self.display_logo:
+            log.info(pyprel.center_string(text = self.logo))
+            pyprel.print_line()
         # engage alert
         if self.name:
             log.info("initiate {name}".format(
@@ -213,7 +213,7 @@ class Program(object):
                 version = self.version
             ))
         log.info("initiation time: {time}".format(
-            time = clock.startTime()
+            time = clock.start_time()
         ))
 
     def terminate(
@@ -221,7 +221,7 @@ class Program(object):
         ):
         clock.stop()
         log.info("termination time: {time}".format(
-            time = clock.stopTime()
+            time = clock.stop_time()
         ))
         log.info("time full report:\n{report}".format(
             report = shijian.clocks.report(style = "full")
@@ -232,7 +232,7 @@ class Program(object):
         log.info("terminate {name}".format(
             name = self.name
         ))
-        pyprel.printLine()
+        pyprel.print_line()
 
 if __name__ == "__main__":
 

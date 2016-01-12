@@ -89,12 +89,12 @@ class Program(object):
 
         # options
         self.options               = options
-        self.userName              = self.options["--username"]
+        self.user_name             = self.options["--username"]
         self.verbose               = self.options["--verbose"]
 
         # default values
-        if self.userName is None:
-            self.userName = os.getenv("USER")
+        if self.user_name is None:
+            self.user_name = os.getenv("USER")
 
         self.engage()
 

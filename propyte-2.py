@@ -42,7 +42,7 @@ Options:
 """
 
 name    = "propyte-2"
-version = "2015-07-15T1628Z"
+version = "2016-01-12T1920Z"
 
 import smuggle # http://cern.ch/go/PG8f
 import os
@@ -52,19 +52,19 @@ import urllib
 import imp
 import time
 docopt = smuggle.smuggle(
-    moduleName = "docopt",
+    module_name = "docopt",
     URL = "https://rawgit.com/docopt/docopt/master/docopt.py"
 )
 technicolor = smuggle.smuggle(
-    moduleName = "technicolor",
+    module_name = "technicolor",
     URL = "https://rawgit.com/wdbm/technicolor/master/technicolor.py"
 )
 shijian = smuggle.smuggle(
-    moduleName = "shijian",
+    module_name = "shijian",
     URL = "https://rawgit.com/wdbm/shijian/master/shijian.py"
 )
 pyprel = smuggle.smuggle(
-    moduleName = "pyprel",
+    module_name = "pyprel",
     URL = "https://rawgit.com/wdbm/pyprel/master/pyprel.py"
 )
 
@@ -96,7 +96,7 @@ class Program(object):
         ):
 
         # internal options
-        self.displayLogo           = True
+        self.display_logo          = True
 
         # clock
         global clock
@@ -114,21 +114,21 @@ class Program(object):
         if "logo" in globals():
             self.logo              = logo
         elif "logo" not in globals() and hasattr(self, "name"):
-            self.logo              = pyprel.renderBanner(
+            self.logo              = pyprel.render_banner(
                                          text = self.name.upper()
                                      )
         else:
-            self.displayLogo       = False
+            self.display_logo      = False
             self.logo              = None
 
         # options
         self.options               = options
-        self.userName              = self.options["--username"]
+        self.user_name             = self.options["--username"]
         self.verbose               = self.options["--verbose"]
 
         # default values
-        if self.userName is None:
-            self.userName = os.getenv("USER")
+        if self.user_name is None:
+            self.user_name = os.getenv("USER")
 
         # logging
         global log
@@ -146,11 +146,11 @@ class Program(object):
     def engage(
         self
         ):
-        pyprel.printLine()
+        pyprel.print_line()
         # logo
-        if self.displayLogo:
-            log.info(pyprel.centerString(text = self.logo))
-            pyprel.printLine()
+        if self.display_logo:
+            log.info(pyprel.center_string(text = self.logo))
+            pyprel.print_line()
         # engage alert
         if self.name:
             log.info("initiate {name}".format(
@@ -162,7 +162,7 @@ class Program(object):
                 version = self.version
             ))
         log.info("initiation time: {time}".format(
-            time = clock.startTime()
+            time = clock.start_time()
         ))
 
     def terminate(
@@ -170,7 +170,7 @@ class Program(object):
         ):
         clock.stop()
         log.info("termination time: {time}".format(
-            time = clock.stopTime()
+            time = clock.stop_time()
         ))
         log.info("time statistics report:\n{report}".format(
             report = shijian.clocks.report()
@@ -178,7 +178,7 @@ class Program(object):
         log.info("terminate {name}".format(
             name = self.name
         ))
-        pyprel.printLine()
+        pyprel.print_line()
         sys.exit()
 
 if __name__ == "__main__":
