@@ -44,7 +44,7 @@ options:
 """
 
 name    = "propyte-5"
-version = "2015-11-30T1314Z"
+version = "2016-01-13T2241Z"
 logo    = None
 
 import os
@@ -62,7 +62,7 @@ def main(options):
         name    = name,
         version = version,
         logo    = logo
-        )
+    )
     global log
     from propyte import log
 
