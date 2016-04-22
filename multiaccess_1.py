@@ -3,13 +3,14 @@
 """
 ################################################################################
 #                                                                              #
-# docopt_example_1                                                             #
+# multiaccess_1                                                                #
 #                                                                              #
 ################################################################################
 #                                                                              #
 # LICENCE INFORMATION                                                          #
 #                                                                              #
-# This program is an example that illustrates the use of docopt.               #
+# This program is an importable module and a script that can accept pipe data  #
+# and can accept command line options and arguments.                           #
 #                                                                              #
 # This software is released under the terms of the GNU General Public License  #
 # version 3 (GPLv3).                                                           #
@@ -33,32 +34,38 @@ usage:
     program [options]
 
 options:
-    -h, --help               display help message
-    --version                display version and exit
-    -v, --verbose            verbose logging
-    -s, --silent             silent
-    -u, --username=USERNAME  username
-    --data=FILENAME          input data file [default: data.txt]
+    --version        display version and exit
+    --datamode       engage data mode
+    --data=FILENAME  input data file [default: data.txt]
 """
 
-name    = "docopt_example_1"
+name    = "multiaccess_1"
 version = "2016-04-22T1437Z"
 logo    = None
 
 import docopt
-import logging
-import os
 import sys
-import time
 
 def main(options):
 
-    # access options and arguments
-    input_data_filename = options["--data"]
+    print("main")
 
-    print("input data file: {filename}".format(
-        filename = input_data_filename
-    ))
+    datamode            = options["--datamode"]
+    filename_input_data = options["--data"]
+
+    if datamode:
+        print("engage data mode")
+        process_data(filename_input_data)
+                                                       
+    if not sys.stdin.isatty():
+        print("accepting pipe data")
+        input_stream = sys.stdin
+        input_stream_list = [line for line in input_stream]
+        print("input stream: {data}".format(data = input_stream_list))
+
+def process_data(filename):
+
+    print("process data of file {filename}".format(filename = filename))
 
 if __name__ == "__main__":
     options = docopt.docopt(__doc__)
