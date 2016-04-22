@@ -44,20 +44,21 @@ Options:
 """
 
 name    = "propyte-1"
-version = "2016-01-12T1916Z"
+version = "2016-04-22T1608Z"
 
-import os
-import sys
-import subprocess
-import time
 import datetime
-import logging
-import technicolor
-import inspect
 import docopt
+import inspect
+import logging
+import os
+import subprocess
+import sys
+import time
+
 import pyprel
 import pyrecon
 import shijian
+import technicolor
 
 def main(options):
 

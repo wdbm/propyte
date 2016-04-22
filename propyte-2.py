@@ -42,30 +42,28 @@ Options:
 """
 
 name    = "propyte-2"
-version = "2016-01-12T1920Z"
+version = "2016-04-22T1556Z"
 
-import smuggle # http://cern.ch/go/PG8f
+import imp
 import os
 import sys
 import logging
 import urllib
-import imp
+
 import time
-docopt = smuggle.smuggle(
-    module_name = "docopt",
-    URL = "https://rawgit.com/docopt/docopt/master/docopt.py"
-)
-technicolor = smuggle.smuggle(
-    module_name = "technicolor",
-    URL = "https://rawgit.com/wdbm/technicolor/master/technicolor.py"
+
+import smuggle # http://cern.ch/go/PG8f
+pyprel = smuggle.smuggle(
+    module_name = "pyprel",
+    URL = "https://rawgit.com/wdbm/pyprel/master/pyprel.py"
 )
 shijian = smuggle.smuggle(
     module_name = "shijian",
     URL = "https://rawgit.com/wdbm/shijian/master/shijian.py"
 )
-pyprel = smuggle.smuggle(
-    module_name = "pyprel",
-    URL = "https://rawgit.com/wdbm/pyprel/master/pyprel.py"
+technicolor = smuggle.smuggle(
+    module_name = "technicolor",
+    URL = "https://rawgit.com/wdbm/technicolor/master/technicolor.py"
 )
 
 @shijian.timer

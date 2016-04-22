@@ -42,14 +42,14 @@ Options:
 """
 
 name    = "propyte-3"
-version = "2015-07-15T1628Z"
+version = "2016-04-22T1556Z"
 
+import docopt
+import imp
 import os
 import sys
-import urllib
-import imp
 import time
-import docopt
+import urllib
 
 def main(options):
 

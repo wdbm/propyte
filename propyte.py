@@ -33,19 +33,20 @@
 """
 
 name    = "propyte"
-version = "2016-01-12T1901Z"
+version = "2016-04-22T1545Z"
 
+import contextlib
+import docopt
+import imp
+import logging
 import os
 import sys
-import logging
 import technicolor
-import shijian
-import pyprel
-import urllib
-import imp
 import time
-import docopt
-import contextlib
+import urllib
+
+import pyprel
+import shijian
 
 class Program(object):
 
@@ -177,9 +178,54 @@ def import_ganzfeld():
     yield
     sys.argv = tmp
 
-if __name__ == "__main__":
-    options = docopt.docopt(__doc__)
-    if options["--version"]:
-        print(version)
-        exit()
-    main(options)
+def get_keystroke():
+    import tty
+    import termios
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        character = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return character
+ 
+def get_y_or_n():
+    character = None
+    while character != "y" and character != "n":
+        character = get_keystroke().lower()
+    return character
+
+def get_input(
+    prompt = None
+    ):
+    if sys.version_info >= (3, 0):
+        return input(prompt)
+    else:
+        return raw_input(prompt)
+
+def pause(
+    prompt = "Press Enter to continue."
+    ):
+    get_input(prompt)
+
+def interrogate(
+    prompt  = None,
+    default = None
+    ):
+    if default is None:
+        message = "{prompt}".format(
+            prompt  = prompt
+        )
+    else:
+        message = "{prompt} [default: {default}]: ".format(
+            prompt  = prompt,
+            default = default,
+        )
+    response = get_input(
+        prompt = message
+    )
+    if response:
+        return response
+    else:
+        return default

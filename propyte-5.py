@@ -44,14 +44,15 @@ options:
 """
 
 name    = "propyte-5"
-version = "2016-01-13T2241Z"
+version = "2016-04-22T1555Z"
 logo    = None
 
+import docopt
+import logging
 import os
 import sys
 import time
-import docopt
-import logging
+
 import propyte
 
 def main(options):
@@ -85,13 +86,13 @@ def main(options):
 
     log.debug("stop printing log messages at various levels")
 
-    function1()
+    function_1()
 
     log.info("")
 
     program.terminate()
 
-def function1():
+def function_1():
     log.info("log message of function1")
 
 if __name__ == "__main__":
