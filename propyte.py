@@ -178,6 +178,41 @@ def import_ganzfeld():
     yield
     sys.argv = tmp
 
+class silence(object):
+
+    def __init__(
+        self,
+        stdout = None,
+        stderr = None
+        ):
+        if stdout == None and stderr == None:
+            devnull = open(os.devnull, "w")
+            stdout = devnull
+            stderr = devnull
+        self._stdout = stdout or sys.stdout
+        self._stderr = stderr or sys.stderr
+
+    def __enter__(
+        self
+        ):
+        self.old_stdout = sys.stdout
+        self.old_stderr = sys.stderr
+        self.old_stdout.flush()
+        self.old_stderr.flush()
+        sys.stdout = self._stdout
+        sys.stderr = self._stderr
+
+    def __exit__(
+        self,
+        exc_type,
+        exc_value,
+        traceback
+        ):
+        self._stdout.flush()
+        self._stderr.flush()
+        sys.stdout = self.old_stdout
+        sys.stderr = self.old_stderr
+
 def get_keystroke():
     import tty
     import termios
