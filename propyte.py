@@ -33,13 +33,14 @@
 """
 
 name    = "propyte"
-version = "2016-04-22T1545Z"
+version = "2016-05-04T1217Z"
 
 import contextlib
 import docopt
 import imp
 import logging
 import os
+import subprocess
 import sys
 import technicolor
 import time
@@ -178,40 +179,23 @@ def import_ganzfeld():
     yield
     sys.argv = tmp
 
-class silence(object):
-
-    def __init__(
-        self,
-        stdout = None,
-        stderr = None
-        ):
-        if stdout == None and stderr == None:
-            devnull = open(os.devnull, "w")
-            stdout = devnull
-            stderr = devnull
-        self._stdout = stdout or sys.stdout
-        self._stderr = stderr or sys.stderr
-
-    def __enter__(
-        self
-        ):
-        self.old_stdout = sys.stdout
-        self.old_stderr = sys.stderr
-        self.old_stdout.flush()
-        self.old_stderr.flush()
-        sys.stdout = self._stdout
-        sys.stderr = self._stderr
-
-    def __exit__(
-        self,
-        exc_type,
-        exc_value,
-        traceback
-        ):
-        self._stdout.flush()
-        self._stderr.flush()
-        sys.stdout = self.old_stdout
-        sys.stderr = self.old_stderr
+@contextlib.contextmanager
+def silence():
+    devnull = os.open(os.devnull, os.O_WRONLY)
+    old_stdout = os.dup(1)
+    old_stderr = os.dup(2)
+    sys.stdout.flush()
+    sys.stderr.flush()
+    os.dup2(devnull, 1)
+    os.dup2(devnull, 2)
+    os.close(devnull)
+    try:
+        yield
+    finally:
+        os.dup2(old_stdout, 1)
+        os.dup2(old_stderr, 2)
+        os.close(old_stdout)
+        os.close(old_stderr)
 
 def get_keystroke():
     import tty
@@ -264,3 +248,14 @@ def interrogate(
         return response
     else:
         return default
+
+def engage_command(
+    command = None
+    ):
+    process = subprocess.Popen(
+        [command],
+        shell      = True,
+        executable = "/bin/bash")
+    process.wait()
+    output, errors = process.communicate()
+    return output

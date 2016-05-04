@@ -31,7 +31,7 @@
 """
 
 name    = "examples_propyte"
-version = "2016-04-30T1022Z"
+version = "2016-05-04T1217Z"
 logo    = None
 
 import propyte
@@ -40,7 +40,7 @@ def main():
 
     print("\npropyte examples")
 
-    print("\nsilence example:\n")
+    print("\nsilence examples:\n")
 
     print("hello")
 
@@ -48,6 +48,17 @@ def main():
         print("there")
 
     print("world")
+
+    print("---")
+
+    print("silent ls:")
+
+    with propyte.silence():
+        propyte.engage_command(command = "ls")
+
+    print("\nnon-silent ls:")
+    propyte.engage_command(command = "ls")
+
 
 if __name__ == "__main__":
     main()
