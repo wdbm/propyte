@@ -8,7 +8,7 @@ def main():
 
     setuptools.setup(
         name             = "propyte",
-        version          = "2016.05.04.1217",
+        version          = "2016.06.10.1539",
         description      = "template Python program",
         long_description = Markdown_to_reStructuredText("README.md"),
         url              = "https://github.com/wdbm/propyte",

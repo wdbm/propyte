@@ -33,13 +33,14 @@
 """
 
 name    = "propyte"
-version = "2016-05-04T1217Z"
+version = "2016-06-10T1539Z"
 
 import contextlib
 import docopt
 import imp
 import logging
 import os
+import signal
 import subprocess
 import sys
 import technicolor
@@ -222,6 +223,22 @@ def get_input(
         return input(prompt)
     else:
         return raw_input(prompt)
+
+def get_input_time_limited(
+    prompt          = "",
+    timeout         = 10, # seconds
+    message_timeout = "\nprompt timeout"
+    ):
+    def timeout_manager(signum, frame):
+        print(message_timeout)
+        raise Exception
+    signal.signal(signal.SIGALRM, timeout_manager)
+    signal.alarm(timeout)
+    try:
+        response = get_input(prompt)
+        return response
+    except:
+        return None
 
 def pause(
     prompt = "Press Enter to continue."
