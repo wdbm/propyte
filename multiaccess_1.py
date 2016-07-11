@@ -40,7 +40,7 @@ options:
 """
 
 name    = "multiaccess_1"
-version = "2016-04-22T1437Z"
+version = "2016-07-11T1850Z"
 logo    = None
 
 import docopt
@@ -56,7 +56,7 @@ def main(options):
     if datamode:
         print("engage data mode")
         process_data(filename_input_data)
-                                                       
+
     if not sys.stdin.isatty():
         print("accepting pipe data")
         input_stream = sys.stdin

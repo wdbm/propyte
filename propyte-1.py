@@ -35,16 +35,16 @@ Usage:
     program [options]
 
 Options:
-    -h, --help                 display help message
-    --version                  display version and exit
-    -v, --verbose              verbose logging
-    -u, --username=USERNAME    username
-    -c, --configuration=CONF   configuration [default: configuration.md]
-    -f, --files=FILESLIST      comma-delimited list of input data files
+    -h, --help                    display help message
+    --version                     display version and exit
+    -v, --verbose                 verbose logging
+    -u, --username=USERNAME       username
+    -c, --configuration=FILENAME  configuration [default: configuration.md]
+    -f, --files=FILESLIST         comma-delimited list of input data files
 """
 
 name    = "propyte-1"
-version = "2016-04-22T1608Z"
+version = "2016-07-11T1850Z"
 
 import datetime
 import docopt

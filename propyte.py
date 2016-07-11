@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 """
 ################################################################################
@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2016-06-10T1539Z"
+version = "2016-07-11T1839Z"
 
 import contextlib
 import docopt
@@ -43,12 +43,12 @@ import os
 import signal
 import subprocess
 import sys
-import technicolor
 import time
 import urllib
 
 import pyprel
 import shijian
+import technicolor
 
 class Program(object):
 

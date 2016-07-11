@@ -35,13 +35,13 @@ Usage:
     program [options]
 
 Options:
-    -h, --help                 display help message
-    --version                  display version and exit
-    --data=FILENAME            input data file [default: data.txt]
+    -h, --help       display help message
+    --version        display version and exit
+    --data=FILENAME  input data file [default: data.txt]
 """
 
 name    = "propyte-4"
-version = "2016-04-22T1555Z"
+version = "2016-07-11T1848Z"
 
 import docopt
 import imp
@@ -60,7 +60,6 @@ def main(options):
         version = version
     ))
 
-    # access options and arguments
     input_data_filename = options["--data"]
 
     print("")

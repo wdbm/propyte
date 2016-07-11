@@ -42,7 +42,7 @@ options:
 """
 
 name    = "docopt_example_1"
-version = "2016-04-22T1437Z"
+version = "2016-07-11T1849Z"
 logo    = None
 
 import docopt
@@ -53,7 +53,6 @@ import time
 
 def main(options):
 
-    # access options and arguments
     input_data_filename = options["--data"]
 
     print("input data file: {filename}".format(

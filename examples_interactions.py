@@ -31,7 +31,7 @@
 """
 
 name    = "examples_interactions"
-version = "2016-06-10T1526Z"
+version = "2016-07-11T1849Z"
 logo    = None
 
 import propyte

@@ -8,14 +8,22 @@ def main():
 
     setuptools.setup(
         name             = "propyte",
-        version          = "2016.06.10.1539",
+        version          = "2016.07.11.1839",
         description      = "template Python program",
         long_description = Markdown_to_reStructuredText("README.md"),
         url              = "https://github.com/wdbm/propyte",
         author           = "Will Breaden Madden",
         author_email     = "w.bm@cern.ch",
         license          = "GPLv3",
-        py_modules       = ["propyte"],
+        py_modules       = [
+                           "propyte"
+                           ],
+        install_requires = [
+                           "docopt",
+                           "pyprel",
+                           "shijian",
+                           "technicolor"
+                           ],
         entry_points     = """
             [console_scripts]
             propyte = propyte:propyte

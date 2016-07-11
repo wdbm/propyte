@@ -34,15 +34,15 @@ Usage:
     program [options]
 
 Options:
-    -h, --help                 display help message
-    --version                  display version and exit
-    -v, --verbose              verbose logging
-    -u, --username=USERNAME    username
-    --data=FILENAME            input data file [default: data.txt]
+    -h, --help               display help message
+    --version                display version and exit
+    -v, --verbose            verbose logging
+    -u, --username=USERNAME  username
+    --data=FILENAME          input data file [default: data.txt]
 """
 
 name    = "propyte-2"
-version = "2016-04-22T1556Z"
+version = "2016-07-11T1850Z"
 
 import imp
 import os

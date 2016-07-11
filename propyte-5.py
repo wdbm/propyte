@@ -44,7 +44,7 @@ options:
 """
 
 name    = "propyte-5"
-version = "2016-04-22T1555Z"
+version = "2016-07-11T1840Z"
 logo    = None
 
 import docopt
@@ -69,7 +69,6 @@ def main(options):
 
     log.info("")
 
-    # access options and arguments
     input_data_filename = options["--data"]
 
     log.info("input data file: {filename}".format(
