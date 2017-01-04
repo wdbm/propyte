@@ -44,7 +44,7 @@ Options:
 """
 
 name    = "propyte-1"
-version = "2016-07-11T1850Z"
+version = "2017-01-04T1310Z"
 
 import datetime
 import docopt
@@ -56,7 +56,6 @@ import sys
 import time
 
 import pyprel
-import pyrecon
 import shijian
 import technicolor
 
@@ -191,8 +190,8 @@ class Program(object):
         self.engage()
 
         # configuration
-        self.configuration = pyrecon.open_configuration(
-            self.configuration_filename
+        self.configuration = shijian.open_configuration(
+            filename = self.configuration_filename
         )
 
     def engage(
