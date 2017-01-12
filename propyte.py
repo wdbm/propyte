@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2017-01-12T1505Z"
+version = "2017-01-12T1514Z"
 
 import contextlib
 import docopt
@@ -280,6 +280,7 @@ def engage_command(
 def say(
     text               = None,
     preference_program = "festival",
+    background         = False,
     silent             = True
     ):
 
@@ -341,6 +342,8 @@ def say(
                 """.format(
                     text = text
                 )
+            if background:
+                command = command.rstrip().rstrip("\n") + " &"
             engage_command(command)
         else:
             if not silent:

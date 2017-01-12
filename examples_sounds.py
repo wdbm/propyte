@@ -31,10 +31,11 @@
 """
 
 name    = "examples_sounds"
-version = "2017-01-12T1505Z"
+version = "2017-01-12T1514Z"
 logo    = None
 
 import propyte
+import time
 
 def main():
 
@@ -46,24 +47,35 @@ def main():
     propyte.say(
         text = text
     )
-
+    
     print("attempt to speak using pico2wave")
     propyte.say(
         text               = text,
         preference_program = "pico2wave"
     )
-
+    
     print("attempt to speak using eSpeak")
     propyte.say(
         text               = text,
         preference_program = "espeak",
         silent             = False
     )
-
+    
     print("attempt to speak using deep throat")
     propyte.say(
         text               = text,
         preference_program = "deep_throat.py"
+    )
+    
+    print("attempt to speak in background")
+    propyte.say(
+        text       = text,
+        background = True
+    )
+    time.sleep(0.01)
+    propyte.say(
+        text       = text,
+        background = True
     )
 
 if __name__ == "__main__":
