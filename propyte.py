@@ -11,7 +11,7 @@
 #                                                                              #
 # This program provides template utilities for programs.                       #
 #                                                                              #
-# copyright (C) 2015 Will Breaden Madden, w.bm@cern.ch                         #
+# copyright (C) 2015 Will Breaden Madden, wbm@protonmail.ch                    #
 #                                                                              #
 # This software is released under the terms of the GNU General Public License  #
 # version 3 (GPLv3).                                                           #
@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2016-07-11T1839Z"
+version = "2017-01-12T1505Z"
 
 import contextlib
 import docopt
@@ -276,3 +276,72 @@ def engage_command(
     process.wait()
     output, errors = process.communicate()
     return output
+
+def say(
+    text               = None,
+    preference_program = "festival",
+    silent             = True
+    ):
+
+    if text is not None:
+
+        # Determine the program to use based on program preference and
+        # program availability.
+
+        preference_order_programs = [
+            "festival",
+            "espeak",
+            "pico2wave",
+            "deep_throat.py"
+        ]
+        # Remove the specified preference program from the default program
+        # preferences order and prioritise it.
+        preference_order_programs.remove(preference_program)
+        preference_order_programs.insert(0, preference_program)
+        # Determine first program that is available in the programs order of
+        # preference.
+        preference_order_programs_available =\
+            [program for program in preference_order_programs \
+                if shijian.which(program) is not None]
+
+        # Say the text if a program is available.
+
+        if preference_order_programs_available:
+            program = preference_order_programs_available[0]
+            if program != preference_program and not silent:
+                print(
+                    "text-to-speech preference program unavailable, "
+                    "using {program}".format(
+                        program = program
+                    )
+                )
+            if program == "festival":
+                command = """
+                echo "{text}" | festival --tts
+                """.format(
+                    text = text
+                )
+            elif program == "espeak":
+                command = """
+                echo "{text}" | espeak
+                """.format(
+                    text = text
+                )
+            elif program == "pico2wave":
+                command = """
+                file_tmp=""$(tempfile)".wav"
+                pico2wave --wave="${{file_tmp}}" "{text}"
+                aplay --quiet "${{file_tmp}}"
+                """.format(
+                    text = text
+                )
+            elif program == "deep_throat.py":
+                command = """
+                echo "{text}" | deep_throat.py
+                """.format(
+                    text = text
+                )
+            engage_command(command)
+        else:
+            if not silent:
+                print("text-to-speech program unavailable")
