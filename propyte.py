@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2017-01-12T1514Z"
+version = "2017-01-16T1645Z"
 
 import contextlib
 import docopt
