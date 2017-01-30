@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2017-01-16T1645Z"
+version = "2017-01-30T1627Z"
 
 import contextlib
 import docopt
@@ -157,7 +157,7 @@ def smuggle(
         try:
             module_string = urllib.urlopen(URL).read()
             module = imp.new_module("module")
-            exec module_string in module.__dict__
+            exec(module_string in module.__dict__)
             return(module)
         except: 
             raise(
