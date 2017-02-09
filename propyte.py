@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2017-01-30T1627Z"
+version = "2017-02-09T2332Z"
 
 import contextlib
 import docopt
@@ -348,3 +348,23 @@ def say(
         else:
             if not silent:
                 print("text-to-speech program unavailable")
+
+def notify(
+    text    = None,
+    subtext = None,
+    icon    = None
+    ):
+
+    if text and shijian.which("notify-send"):
+        command = "notify-send \"{text}\""
+        if subtext:
+            command = command + " \"{subtext}\""
+        if icon and os.path.isfile(os.path.expandvars(icon)):
+            command = command + " --icon={icon}"
+        command = command + " --urgency=critical"
+        command = command.format(
+            text    = text,
+            subtext = subtext,
+            icon    = icon
+        )
+        engage_command(command)

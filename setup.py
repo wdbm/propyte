@@ -9,7 +9,7 @@ def main():
 
     setuptools.setup(
         name             = "propyte",
-        version          = "2017.01.30.1627",
+        version          = "2017.02.09.2332",
         description      = "template Python program",
         long_description = long_description(),
         url              = "https://github.com/wdbm/propyte",
