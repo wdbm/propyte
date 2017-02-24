@@ -33,9 +33,11 @@
 """
 
 name    = "propyte"
-version = "2017-02-09T2332Z"
+version = "2017-02-24T0245Z"
 
 import contextlib
+import copy
+import datetime
 import docopt
 import imp
 import logging
@@ -43,12 +45,22 @@ import os
 import signal
 import subprocess
 import sys
+import threading
 import time
 import urllib
 
 import pyprel
+import pytg
+import pytg.utils
+import pytg.receiver
 import shijian
 import technicolor
+
+################################################################################
+#                                                                              #
+# program                                                                      #
+#                                                                              #
+################################################################################
 
 class Program(object):
 
@@ -144,6 +156,12 @@ class Program(object):
             pyprel.print_line()
         sys.exit()
 
+################################################################################
+#                                                                              #
+# smuggle                                                                      #
+#                                                                              #
+################################################################################
+
 def smuggle(
     module_name = None,
     URL         = None
@@ -168,6 +186,12 @@ def smuggle(
                 )
             )
             sys.exit()
+
+################################################################################
+#                                                                              #
+# silence                                                                      #
+#                                                                              #
+################################################################################
 
 @contextlib.contextmanager
 def import_ganzfeld():
@@ -197,6 +221,12 @@ def silence():
         os.dup2(old_stderr, 2)
         os.close(old_stdout)
         os.close(old_stderr)
+
+################################################################################
+#                                                                              #
+# interactions                                                                 #
+#                                                                              #
+################################################################################
 
 def get_keystroke():
     import tty
@@ -266,16 +296,38 @@ def interrogate(
     else:
         return default
 
+################################################################################
+#                                                                              #
+# commands                                                                     #
+#                                                                              #
+################################################################################
+
 def engage_command(
-    command = None
+    command    = None,
+    background = False
     ):
-    process = subprocess.Popen(
-        [command],
-        shell      = True,
-        executable = "/bin/bash")
-    process.wait()
-    output, errors = process.communicate()
-    return output
+    if not background:
+        process = subprocess.Popen(
+            [command],
+            shell      = True,
+            executable = "/bin/bash"
+        )
+        process.wait()
+        output, errors = process.communicate()
+        return output
+    else:
+        subprocess.Popen(
+            [command],
+            shell      = True,
+            executable = "/bin/bash"
+        )
+        return None
+
+################################################################################
+#                                                                              #
+# speech                                                                       #
+#                                                                              #
+################################################################################
 
 def say(
     text               = None,
@@ -349,6 +401,12 @@ def say(
             if not silent:
                 print("text-to-speech program unavailable")
 
+################################################################################
+#                                                                              #
+# notifications                                                                #
+#                                                                              #
+################################################################################
+
 def notify(
     text    = None,
     subtext = None,
@@ -368,3 +426,158 @@ def notify(
             icon    = icon
         )
         engage_command(command)
+
+################################################################################
+#                                                                              #
+# Telegram                                                                     #
+#                                                                              #
+################################################################################
+
+def start_messaging_Telegram(
+    path_Telegram_CLI_executable      = "/usr/share/tg/bin/telegram-cli",
+    path_Telegram_CLI_public_key_file = "/usr/share/tg/tg-server.pub",
+    launch                            = True
+    ):
+
+    if not os.path.isfile(path_Telegram_CLI_executable):
+        print("Telegram CLI executable not found: {path}".format(
+            path = path_Telegram_CLI_executable
+        ))
+        sys.exit()
+    if not os.path.isfile(path_Telegram_CLI_public_key_file):
+        print("Telegram CLI public key not found: {path}".format(
+            path = path_Telegram_CLI_public_key_file
+        ))
+        sys.exit()
+
+    if not shijian.running("telegram-cli"):
+        print("\nlaunch Telegram CLI\n")
+        command =\
+        """
+        {path_Telegram_CLI_executable}             \
+            -R                                     \
+            -W                                     \
+            -P 4458                                \
+            -k {path_Telegram_CLI_public_key_file} \
+            --json                                 \
+            --permanent-peer-ids                   \
+            --permanent-peer-ids                   \
+            --disable-output                       \
+            --daemonize
+        """.format(
+            path_Telegram_CLI_executable      = path_Telegram_CLI_executable,
+            path_Telegram_CLI_public_key_file = path_Telegram_CLI_public_key_file,
+        )
+        print("---")
+        print(command)
+        print("---")
+        engage_command(
+            command = command,
+            background = True
+        )
+
+    global tg
+    tg = pytg.Telegram(
+        telegram    = path_Telegram_CLI_executable,
+        pubkey_file = path_Telegram_CLI_public_key_file
+    )
+    global tg_sender
+    tg_sender = tg.sender
+
+def send_message_Telegram(
+    recipient = None,
+    text      = None
+    ):
+
+    if text and recipient:
+        tg_sender.send_msg(
+            unicode(recipient),
+            unicode(text)
+        )
+
+def loop_receive_messages_Telegram():
+
+    @pytg.utils.coroutine
+    def receiver_function(tg_receiver):
+        while True:
+            message = (yield)
+            messages_received_Telegram.append(message)
+    tg_receiver = pytg.receiver.Receiver()
+    tg_receiver.start()
+    tg_receiver.message(receiver_function(tg_receiver))
+    receiver.stop()
+
+def start_receiving_messages_Telegram():
+
+    global messages_received_Telegram
+    messages_received_Telegram = []
+    global thread_receive_messages_Telegram
+    thread_receive_messages_Telegram = threading.Thread(
+        target = loop_receive_messages_Telegram
+    )
+    thread_receive_messages_Telegram.start()
+
+def get_messages_received_Telegram(
+    remove_non_status_messages = True,
+    simple_style               = True
+    ):
+
+    if remove_non_status_messages or simple_style:
+        messages_non_status = []
+        for message in messages_received_Telegram:
+            if message["event"] != "online-status":
+                messages_non_status.append(message)
+
+    if simple_style:
+        messages_simple_style = []
+        for message in messages_non_status:
+            messages_simple_style.append({
+                "text":      message["text"].encode("utf-8"),
+                "sender":    message["sender"]["username"].encode("utf-8"),
+                "time_sent": datetime.datetime.strptime(
+                                 message["sender"]["when"].encode("utf-8"),
+                                 "%Y-%m-%d %H:%M:%S"
+                             )
+            })
+
+    if simple_style:
+        return messages_simple_style
+    elif remove_non_status_messages:
+        return messages_non_status
+    else:
+        return messages_received_Telegram
+
+def get_last_message_received_Telegram(
+    remove_non_status_messages = True,
+    simple_style               = True
+    ):
+
+    messages = get_messages_received_Telegram(
+        remove_non_status_messages = remove_non_status_messages,
+        simple_style               = simple_style
+    )
+
+    if messages:
+        return messages[-1]
+    else:
+        return None
+
+def get_text_last_message_received_Telegram(
+    remove_non_status_messages = True,
+    simple_style               = True
+    ):
+
+    messages = get_messages_received_Telegram(
+        remove_non_status_messages = remove_non_status_messages,
+        simple_style               = simple_style
+    )
+
+    if messages:
+        return messages[-1]["text"]
+    else:
+        return None
+
+def clear_messages_received_Telegram():
+
+    global messages_received_Telegram
+    messages_received_Telegram = []
