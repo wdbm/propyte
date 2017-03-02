@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2017-02-24T0245Z"
+version = "2017-03-01T2359Z"
 
 import contextlib
 import copy
@@ -468,9 +468,6 @@ def start_messaging_Telegram(
             path_Telegram_CLI_executable      = path_Telegram_CLI_executable,
             path_Telegram_CLI_public_key_file = path_Telegram_CLI_public_key_file,
         )
-        print("---")
-        print(command)
-        print("---")
         engage_command(
             command = command,
             background = True
@@ -485,15 +482,23 @@ def start_messaging_Telegram(
     tg_sender = tg.sender
 
 def send_message_Telegram(
-    recipient = None,
-    text      = None
+    recipient  = None, # string
+    recipients = None, # list of strings
+    text       = None
     ):
 
-    if text and recipient:
-        tg_sender.send_msg(
-            unicode(recipient),
-            unicode(text)
-        )
+    if text:
+        if recipient:
+            tg_sender.send_msg(
+                unicode(recipient),
+                unicode(text)
+            )
+        if recipients:
+            for recipient in recipients:
+                tg_sender.send_msg(
+                    unicode(recipient),
+                    unicode(text)
+                )
 
 def loop_receive_messages_Telegram():
 
