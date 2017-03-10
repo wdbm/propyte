@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2017-03-01T2359Z"
+version = "2017-03-10T1658Z"
 
 import contextlib
 import copy
@@ -49,6 +49,7 @@ import threading
 import time
 import urllib
 
+import pushbullet
 import pyprel
 import pytg
 import pytg.utils
@@ -426,6 +427,30 @@ def notify(
             icon    = icon
         )
         engage_command(command)
+
+################################################################################
+#                                                                              #
+# Pushbullet                                                                   #
+#                                                                              #
+################################################################################
+
+def start_messaging_Pushbullet(
+    token = None
+    ):
+
+    global pb
+    pb = pushbullet.Pushbullet(token)
+
+def send_message_Pushbullet(
+    title      = "",
+    text       = None
+    ):
+
+    if text:
+        pb.push_note(
+            str(title),
+            str(text)
+        )
 
 ################################################################################
 #                                                                              #

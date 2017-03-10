@@ -9,7 +9,7 @@ def main():
 
     setuptools.setup(
         name             = "propyte",
-        version          = "2017.03.01.2359",
+        version          = "2017.03.10.1658",
         description      = "template Python program",
         long_description = long_description(),
         url              = "https://github.com/wdbm/propyte",
@@ -21,6 +21,7 @@ def main():
                            ],
         install_requires = [
                            "docopt",
+                           "pushbullet.py",
                            "pyprel",
                            "pytg",
                            "shijian",
