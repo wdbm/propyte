@@ -3,7 +3,7 @@
 """
 ################################################################################
 #                                                                              #
-# example_timing_listening                                                     #
+# propyte_example_timing_listening                                             #
 #                                                                              #
 ################################################################################
 #                                                                              #
@@ -41,7 +41,7 @@ options:
     --dayruntime=TEXT        HHMM--HHMM [default: 2200--1000]
 """
 
-name    = "example_timing_listening"
+name    = "propyte_example_timing_listening"
 version = "2017-03-01T2359Z"
 logo    = name
 
@@ -53,6 +53,7 @@ import sys
 import time
 
 import propyte
+import shijian
 
 def main(options):
 
@@ -68,27 +69,6 @@ def main(options):
 
     day_run_time = options["--dayruntime"]
 
-    day_run_time_start = day_run_time.split("--")[0]
-    day_run_time_stop  = day_run_time.split("--")[1]
-
-    day_run_time_start_datetime = datetime.datetime.combine(
-        datetime.datetime.now().date(),
-        datetime.datetime.strptime(
-            day_run_time_start,
-            "%H%M"
-        ).time()
-    )
-    day_run_time_stop_datetime = datetime.datetime.combine(
-        datetime.datetime.now().date(),
-        datetime.datetime.strptime(
-            day_run_time_stop,
-            "%H%M"
-        ).time()
-    )
-    if day_run_time_stop_datetime < day_run_time_start_datetime:
-        day_run_time_stop_datetime =\
-            day_run_time_stop_datetime + datetime.timedelta(hours = 24)
-
     propyte.start_messaging_Telegram()
     propyte.start_receiving_messages_Telegram()
 
@@ -97,17 +77,15 @@ def main(options):
 
     while True:
 
-        if day_run_time_start_datetime <=\
-           datetime.datetime.now()     <=\
-           day_run_time_stop_datetime:
+        if shijian.in_daily_time_range(time_range = day_run_time):
 
-            text = propyte.get_text_last_message_received_Telegram()
-            if "sup" in str(text):
+            text = str(propyte.get_text_last_message_received_Telegram())
+            if "sup" in text:
                 propyte.send_message_Telegram(
                     recipient = "@wbreadenmadden",
                     text      = "what up dog"
                 )
-            if "how r u" in str(text):
+            if "how r u" in text:
                 propyte.send_message_Telegram(
                     recipient = "@wbreadenmadden",
                     text      = "nae bad fam"
