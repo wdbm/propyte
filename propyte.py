@@ -33,7 +33,7 @@
 """
 
 name    = "propyte"
-version = "2017-03-10T1658Z"
+version = "2017-03-20T2051Z"
 
 import contextlib
 import copy
@@ -443,14 +443,19 @@ def start_messaging_Pushbullet(
 
 def send_message_Pushbullet(
     title      = "",
-    text       = None
+    text       = None,
+    filepath   = None
     ):
 
-    if text:
+    if text and not filepath:
         pb.push_note(
             str(title),
             str(text)
         )
+    if filepath and not text:
+        with open(filepath, "rb") as file_object:
+            file_upload_data = pb.upload_file(file_object, filepath)
+        pb.push_file(**file_upload_data)
 
 ################################################################################
 #                                                                              #
@@ -494,7 +499,7 @@ def start_messaging_Telegram(
             path_Telegram_CLI_public_key_file = path_Telegram_CLI_public_key_file,
         )
         engage_command(
-            command = command,
+            command    = command,
             background = True
         )
 
@@ -509,10 +514,11 @@ def start_messaging_Telegram(
 def send_message_Telegram(
     recipient  = None, # string
     recipients = None, # list of strings
-    text       = None
+    text       = None,
+    filepath   = None
     ):
 
-    if text:
+    if text and not filepath:
         if recipient:
             tg_sender.send_msg(
                 unicode(recipient),
@@ -523,6 +529,18 @@ def send_message_Telegram(
                 tg_sender.send_msg(
                     unicode(recipient),
                     unicode(text)
+                )
+    if filepath and not text:
+        if recipient:
+            tg_sender.send_file(
+                unicode(recipient),
+                unicode(filepath)
+            )
+        if recipients:
+            for recipient in recipients:
+                tg_sender.send_file(
+                    unicode(recipient),
+                    unicode(filepath)
                 )
 
 def loop_receive_messages_Telegram():
