@@ -32,8 +32,7 @@
 ################################################################################
 """
 
-name    = "propyte"
-version = "2017-03-20T2051Z"
+from __future__ import division
 
 import contextlib
 import copy
@@ -48,6 +47,7 @@ import sys
 import threading
 import time
 import urllib
+import uuid
 
 import pushbullet
 import pyprel
@@ -56,6 +56,9 @@ import pytg.utils
 import pytg.receiver
 import shijian
 import technicolor
+
+name    = "propyte"
+version = "2017-04-18T1436Z"
 
 ################################################################################
 #                                                                              #
@@ -72,23 +75,28 @@ class Program(object):
         name       = None,
         version    = None,
         logo       = None,
-        engage_log = True
+        engage_log = True,
+        instance   = None
         ):
 
         global clock
         clock = shijian.Clock(name = "program run time")
 
-        self.options         = options
-        self.username        = self.options["--username"]
-        self.verbose         = self.options["--verbose"]
-        self.silent          = self.options["--silent"]
+        if options is None:
+            options = dict()
 
-        self.name            = name
-        self.version         = version
-        self.logo            = logo
+        self.options  = options
+        self.username = self.options["--username"]
+        self.verbose  = self.options["--verbose"]
+        self.silent   = self.options["--silent"]
+
+        self.name     = name
+        self.version  = version
+        self.logo     = logo
+        self.instance = instance
 
         if self.username is None:
-            self.username    = os.getenv("USER")
+            self.username = os.getenv("USER")
         if self.logo is not None:
             self.display_logo = True
         elif self.logo is None and self.name is not None:
@@ -98,6 +106,8 @@ class Program(object):
             self.display_logo = True
         else:
             self.display_logo = False
+        if self.instance is None:
+            self.instance = str(uuid.uuid4())
 
         # logging
         if engage_log:
