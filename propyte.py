@@ -58,7 +58,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2017-04-18T1436Z"
+version = "2017-04-18T1521Z"
 
 ################################################################################
 #                                                                              #
@@ -445,8 +445,18 @@ def notify(
 ################################################################################
 
 def start_messaging_Pushbullet(
-    token = None
+    token          = None,
+    filepath_token = "~/.pushbullet"
     ):
+
+    if token is None:
+        filepath_token = os.path.expanduser(os.path.expandvars(filepath_token))
+        if os.path.isfile(filepath_token):
+            file_token_contents =\
+                [line.rstrip("\n") for line in open(filepath_token)]
+            token = [line for line in file_token_contents if line]
+            if token:
+                token = token[0]
 
     global pb
     pb = pushbullet.Pushbullet(token)
