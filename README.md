@@ -53,6 +53,31 @@ sudo apt-get -y install graphviz libgraphviz-dev python-dev
 sudo pip install pylint pygraphviz
 ```
 
+# setup LXPLUS with Pushbullet messaging
+
+Set up a Pushbullet account, create an access token and store a Pushbullet token in the file `~/.pushbullet`. Install Pushbullet on a mobile device.
+
+- [Pushbullet settings](https://www.pushbullet.com/#settings/account)
+- [Pushbullet Android](https://play.google.com/store/apps/details?id=com.pushbullet.android)
+
+Miniconda2 is used as an environment. By default, Miniconda is installed at `~/miniconda2` and the Miniconda2 install path is prepended to PATH in `~/.bashrc`.
+
+```Bash
+wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+chmod 755 Miniconda2-latest-Linux-x86_64.sh
+./Miniconda2-latest-Linux-x86_64.sh
+
+export PATH=""${HOME}"/miniconda2/bin:$PATH"
+```
+
+```Bash
+pip install propyte
+```
+
+```Bash
+propyte_alert --text="hello world"
+```
+
 # smuggle
 
 Web modules can be imported using the function `smuggle`. Use this functionality with due regard to security.
