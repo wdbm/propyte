@@ -58,7 +58,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2017-04-20T1654Z"
+version = "2017-04-20T1658Z"
 
 ################################################################################
 #                                                                              #

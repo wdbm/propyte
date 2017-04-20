@@ -75,7 +75,7 @@ pip install propyte
 ```
 
 ```Bash
-propyte_alert --text="hello world"
+propyte_alert.py --text="hello world"
 ```
 
 # smuggle
