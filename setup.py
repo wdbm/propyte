@@ -9,7 +9,7 @@ def main():
 
     setuptools.setup(
         name             = "propyte",
-        version          = "2017.04.18.1521",
+        version          = "2017.04.20.0846",
         description      = "template Python program",
         long_description = long_description(),
         url              = "https://github.com/wdbm/propyte",
@@ -27,10 +27,13 @@ def main():
                            "shijian",
                            "technicolor"
                            ],
+        scripts          = [
+                           "propyte_alert.py"
+                           ],
         entry_points     = """
                            [console_scripts]
                            propyte = propyte:propyte
-        """
+                           """
     )
 
 def long_description(

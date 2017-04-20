@@ -58,7 +58,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2017-04-18T1521Z"
+version = "2017-04-20T0846Z"
 
 ################################################################################
 #                                                                              #
@@ -457,6 +457,11 @@ def start_messaging_Pushbullet(
             token = [line for line in file_token_contents if line]
             if token:
                 token = token[0]
+            else:
+                print("no Pushbullet token specified or found in {filepath}".format(
+                    filepath = filepath_token
+                ))
+                sys.exit()
 
     global pb
     pb = pushbullet.Pushbullet(token)
