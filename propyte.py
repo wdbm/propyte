@@ -58,7 +58,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2017-05-09T1426Z"
+version = "2017-05-09T1558Z"
 
 ################################################################################
 #                                                                              #
@@ -166,6 +166,27 @@ class Program(object):
             ))
             pyprel.print_line()
         sys.exit()
+
+    def restart(
+        self
+        ):
+        clock.stop()
+        if not self.silent:
+            log.info("termination time: {time}".format(
+                time = clock.stop_time()
+            ))
+            log.info("time statistics report:\n{report}".format(
+                report = shijian.clocks.report()
+            ))
+            log.info("terminate {name}".format(
+                name = self.name
+            ))
+            pyprel.print_line()
+        restart()
+
+def restart():
+    import __main__
+    os.execv(__main__.__file__, sys.argv)
 
 ################################################################################
 #                                                                              #
