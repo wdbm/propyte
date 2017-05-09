@@ -182,8 +182,8 @@ propyte.send_message_Pushbullet(
 
 propyte.send_message_Pushbullet(
     recipients = ["alice@neutronmail.ch"],
-    title     = "alert",
-    text      = "This is an alert."
+    title      = "alert",
+    text       = "This is an alert."
 )
 
 propyte.send_message_Pushbullet(
