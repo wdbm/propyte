@@ -58,7 +58,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2017-05-09T1558Z"
+version = "2017-05-09T1659Z"
 
 ################################################################################
 #                                                                              #
@@ -70,13 +70,14 @@ class Program(object):
 
     def __init__(
         self,
-        parent     = None,
-        options    = None,
-        name       = None,
-        version    = None,
-        logo       = None,
-        engage_log = True,
-        instance   = None
+        parent       = None,
+        options      = None,
+        name         = None,
+        version      = None,
+        logo         = None,
+        engage_log   = True,
+        filename_log = None,
+        instance     = None
         ):
 
         global clock
@@ -93,6 +94,8 @@ class Program(object):
         self.name     = name
         self.version  = version
         self.logo     = logo
+        self.engage_log = engage_log
+        self.filename_log = filename_log
         self.instance = instance
 
         if self.username is None:
@@ -120,6 +123,9 @@ class Program(object):
                 logging.root.setLevel(logging.DEBUG)
             else:
                 logging.root.setLevel(logging.INFO)
+
+            if self.filename_log:
+                logging.root.addHandler(logging.FileHandler(self.filename_log))
 
         self.engage()
 
