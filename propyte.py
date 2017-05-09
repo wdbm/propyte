@@ -58,7 +58,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2017-05-09T1659Z"
+version = "2017-05-09T2002Z"
 
 ################################################################################
 #                                                                              #
@@ -494,20 +494,51 @@ def start_messaging_Pushbullet(
     pb = pushbullet.Pushbullet(token)
 
 def send_message_Pushbullet(
+    recipient  = None, # e-mail address
+    recipients = None, # list of e-mail addresses
     title      = "",
     text       = None,
     filepath   = None
     ):
 
-    if text and not filepath:
-        pb.push_note(
-            str(title),
-            str(text)
-        )
-    if filepath and not text:
-        with open(filepath, "rb") as file_object:
-            file_upload_data = pb.upload_file(file_object, filepath)
-        pb.push_file(**file_upload_data)
+    if recipient:
+        if text and not filepath:
+            pb.push_note(
+                str(title),
+                str(text),
+                email = recipient
+            )
+        elif filepath:
+            with open(filepath, "rb") as file_object:
+                file_upload_data = pb.upload_file(file_object, filepath)
+            file_upload_data["email"] = recipient
+            file_upload_data["title"] = title
+            pb.push_file(**file_upload_data)
+    if recipients:
+        for recipient in recipients:
+            if text and not filepath:
+                pb.push_note(
+                    str(title),
+                    str(text),
+                    email = recipient
+                )
+            elif filepath:
+                with open(filepath, "rb") as file_object:
+                    file_upload_data = pb.upload_file(file_object, filepath)
+                file_upload_data["email"] = recipient
+                file_upload_data["title"] = title
+                pb.push_file(**file_upload_data)
+    else:
+        if text and not filepath:
+            pb.push_note(
+                str(title),
+                str(text)
+            )
+        elif filepath:
+            with open(filepath, "rb") as file_object:
+                file_upload_data = pb.upload_file(file_object, filepath)
+            file_upload_data["title"] = title
+            pb.push_file(**file_upload_data)
 
 ################################################################################
 #                                                                              #

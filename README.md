@@ -137,7 +137,7 @@ In order to use Telegram functionality, ensure that both Telegram and Telegram C
 
 Messages can be sent in a way like the following:
 
-```Bash
+```Python
 import propyte
 propyte.start_messaging_Telegram()
 
@@ -154,16 +154,43 @@ propyte.start_receiving_messages_Telegram()
 
 Messages received can be accessed in a number of ways using various function arguments.
 
-```Bash
+```Python
 propyte.get_messages_received_Telegram()
 ```
 
-```Bash
+```Python
 propyte.get_last_message_received_Telegram()
 ```
 
-```Bash
+```Python
 propyte.get_text_last_message_received_Telegram()
+```
+
+# Pushbullet
+
+Messages can be sent in ways like the following:
+
+```Python
+import propyte
+propyte.start_messaging_Pushbullet()
+
+propyte.send_message_Pushbullet(
+    recipient = "alice@neutronmail.ch",
+    title     = "alert",
+    text      = "This is an alert."
+)
+
+propyte.send_message_Pushbullet(
+    recipients = ["alice@neutronmail.ch"],
+    title     = "alert",
+    text      = "This is an alert."
+)
+
+propyte.send_message_Pushbullet(
+    recipient = "alice@neutronmail.ch",
+    title     = "price alert",
+    filepath  = "prices.png"
+)
 ```
 
 # UML
