@@ -31,7 +31,7 @@
 """
 
 name    = "examples_propyte"
-version = "2016-05-04T1217Z"
+version = "2018-01-09T1748Z"
 logo    = None
 
 import propyte
@@ -58,7 +58,6 @@ def main():
 
     print("\nnon-silent ls:")
     propyte.engage_command(command = "ls")
-
 
 if __name__ == "__main__":
     main()

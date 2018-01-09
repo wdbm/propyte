@@ -58,7 +58,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2017-05-09T2002Z"
+version = "2018-01-09T1816Z"
 
 ################################################################################
 #                                                                              #
@@ -86,17 +86,17 @@ class Program(object):
         if options is None:
             options = dict()
 
-        self.options  = options
-        self.username = self.options["--username"]
-        self.verbose  = self.options["--verbose"]
-        self.silent   = self.options["--silent"]
+        self.options      = options
+        self.username     = self.options["--username"]
+        self.verbose      = self.options["--verbose"]
+        self.silent       = self.options["--silent"]
 
-        self.name     = name
-        self.version  = version
-        self.logo     = logo
-        self.engage_log = engage_log
+        self.name         = name
+        self.version      = version
+        self.logo         = logo
+        self.engage_log   = engage_log
         self.filename_log = filename_log
-        self.instance = instance
+        self.instance     = instance
 
         if self.username is None:
             self.username = os.getenv("USER")
@@ -215,7 +215,7 @@ def smuggle(
             module = imp.new_module("module")
             exec(module_string in module.__dict__)
             return(module)
-        except: 
+        except:
             raise(
                 Exception(
                     "module {module_name} import error".format(
@@ -277,7 +277,7 @@ def get_keystroke():
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return character
- 
+
 def get_y_or_n():
     character = None
     while character != "y" and character != "n":
@@ -553,12 +553,12 @@ def start_messaging_Telegram(
     ):
 
     if not os.path.isfile(path_Telegram_CLI_executable):
-        print("Telegram CLI executable not found: {path}".format(
+        print("executable not found: {path}".format(
             path = path_Telegram_CLI_executable
         ))
         sys.exit()
     if not os.path.isfile(path_Telegram_CLI_public_key_file):
-        print("Telegram CLI public key not found: {path}".format(
+        print("public key not found: {path}".format(
             path = path_Telegram_CLI_public_key_file
         ))
         sys.exit()
@@ -604,26 +604,26 @@ def send_message_Telegram(
     if text and not filepath:
         if recipient:
             tg_sender.send_msg(
-                unicode(recipient),
-                unicode(text)
+                shijian.ustr(recipient),
+                shijian.ustr(text)
             )
         if recipients:
             for recipient in recipients:
                 tg_sender.send_msg(
-                    unicode(recipient),
-                    unicode(text)
+                    shijian.ustr(recipient),
+                    shijian.ustr(text)
                 )
     if filepath and not text:
         if recipient:
             tg_sender.send_file(
-                unicode(recipient),
-                unicode(filepath)
+                shijian.ustr(recipient),
+                ustr(filepath)
             )
         if recipients:
             for recipient in recipients:
                 tg_sender.send_file(
-                    unicode(recipient),
-                    unicode(filepath)
+                    shijian.ustr(recipient),
+                    shijian.ustr(filepath)
                 )
 
 def loop_receive_messages_Telegram():
@@ -666,7 +666,7 @@ def get_messages_received_Telegram(
                 "text":      message["text"].encode("utf-8"),
                 "sender":    message["sender"]["username"].encode("utf-8"),
                 "time_sent": datetime.datetime.strptime(
-                                 message["sender"]["when"].encode("utf-8"),
+                                 shijian.ustr(message["sender"]["when"]),
                                  "%Y-%m-%d %H:%M:%S"
                              )
             })

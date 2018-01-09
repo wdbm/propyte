@@ -9,7 +9,9 @@
 #                                                                              #
 # LICENCE INFORMATION                                                          #
 #                                                                              #
-# This program is a template Python program.                                   #
+# This program checks for Telegram messages every few seconds if the current   #
+# time is in a certain specified daily time window. It responds to messages if #
+# they contain certain text.                                                   #
 #                                                                              #
 # This software is released under the terms of the GNU General Public License  #
 # version 3 (GPLv3).                                                           #
@@ -42,7 +44,7 @@ options:
 """
 
 name    = "propyte_example_timing_listening"
-version = "2017-03-01T2359Z"
+version = "2018-01-09T1754Z"
 logo    = name
 
 import datetime

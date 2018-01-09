@@ -31,7 +31,7 @@
 """
 
 name    = "examples_interactions"
-version = "2016-07-11T1849Z"
+version = "2018-01-09T1746Z"
 logo    = None
 
 import propyte
@@ -43,7 +43,7 @@ def main():
     response = ""
     while response is not None:
         response = propyte.get_input_time_limited(
-            prompt  = "ohai? ",
+            prompt  = "ohai? (10 seconds to respond) ",
             timeout = 10 # 604800 s (1 week)
         )
     print("start non-response procedures")
