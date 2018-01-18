@@ -78,6 +78,10 @@ pip install propyte
 propyte_alert.py --text="hello world"
 ```
 
+# `propyte_loop_alert_on_new_users.py`
+
+This script loop monitors for new user connections (using `psutil.users()`) and sends an alert (using Pushbullet) is any are detected.
+
 # smuggle
 
 Web modules can be imported using the function `smuggle`. Use this functionality with due regard to security.

@@ -9,7 +9,7 @@ def main():
 
     setuptools.setup(
         name             = "propyte",
-        version          = "2018.01.09.1816",
+        version          = "2018.01.18.1628",
         description      = "template Python program",
         long_description = long_description(),
         url              = "https://github.com/wdbm/propyte",
@@ -24,11 +24,13 @@ def main():
                            "pushbullet.py",
                            "pyprel",
                            "pytg",
+                           "psutil",
                            "shijian",
                            "technicolor"
                            ],
         scripts          = [
-                           "propyte_alert.py"
+                           "propyte_alert.py",
+                           "propyte_loop_alert_on_new_users.py"
                            ],
         entry_points     = """
                            [console_scripts]
