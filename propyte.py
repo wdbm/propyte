@@ -58,7 +58,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2018-01-18T1628Z"
+version = "2018-02-06T1936Z"
 
 ################################################################################
 #                                                                              #
@@ -284,6 +284,14 @@ def get_y_or_n():
         character = get_keystroke().lower()
     return character
 
+def confirm(
+    prompt = "confirm? (y to continue, n to exit)"
+    ):
+    print(prompt)
+    response = get_y_or_n()
+    if response == "n":
+        sys.exit()
+
 def get_input(
     prompt = None
     ):
@@ -333,6 +341,14 @@ def interrogate(
         return response
     else:
         return default
+
+def get_option_number(
+    options = []
+    ):
+    character = None
+    while character not in options:
+        character = get_keystroke().lower()
+    return character
 
 ################################################################################
 #                                                                              #
