@@ -42,12 +42,15 @@ import imp
 import logging
 import os
 import signal
-import subprocess
 import sys
 import threading
 import time
 import urllib
 import uuid
+if sys.version_info[0] < 3:
+    import subprocess32 as subprocess
+else:
+    import subprocess
 
 import pushbullet
 import pyprel
@@ -58,7 +61,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2018-02-06T1936Z"
+version = "2018-02-27T1555Z"
 
 ################################################################################
 #                                                                              #
@@ -358,23 +361,34 @@ def get_option_number(
 
 def engage_command(
     command    = None,
-    background = False
+    background = True,
+    timeout    = None
     ):
-    if not background:
-        process = subprocess.Popen(
-            [command],
-            shell      = True,
-            executable = "/bin/bash"
-        )
-        process.wait()
-        output, errors = process.communicate()
-        return output
-    else:
+    #log.debug(command)
+    if background:
+        if timeout:
+            #log.warning("warning -- command set to run in background; ignoring timeout")
         subprocess.Popen(
             [command],
             shell      = True,
             executable = "/bin/bash"
         )
+        return None
+    elif not background:
+        process = subprocess.Popen(
+            [command],
+            shell      = True,
+            executable = "/bin/bash",
+            stdout     = subprocess.PIPE
+        )
+        try:
+            process.wait(timeout = timeout)
+            output, errors = process.communicate(timeout = timeout)
+            return output
+        except:
+            process.kill()
+            return False
+    else:
         return None
 
 ################################################################################
