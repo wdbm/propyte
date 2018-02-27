@@ -9,7 +9,7 @@ def main():
 
     setuptools.setup(
         name             = "propyte",
-        version          = "2018.02.27.1555",
+        version          = "2018.02.27.1650",
         description      = "template Python program",
         long_description = long_description(),
         url              = "https://github.com/wdbm/propyte",
@@ -26,7 +26,7 @@ def main():
                            "pytg",
                            "psutil",
                            "shijian",
-                           "subprocess32",
+                           "subprocess32;python_version<'3.0'",
                            "technicolor"
                            ],
         scripts          = [
