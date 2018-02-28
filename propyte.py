@@ -61,7 +61,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2018-02-27T1650Z"
+version = "2018-02-28T0136Z"
 
 ################################################################################
 #                                                                              #
@@ -364,10 +364,7 @@ def engage_command(
     background = True,
     timeout    = None
     ):
-    #log.debug(command)
     if background:
-        if timeout:
-            #log.warning("warning -- command set to run in background; ignoring timeout")
         subprocess.Popen(
             [command],
             shell      = True,
@@ -401,73 +398,94 @@ def say(
     text               = None,
     preference_program = "festival",
     background         = False,
-    silent             = True
+    silent             = True,
+    filepath           = None
     ):
-
-    if text is not None:
-
-        # Determine the program to use based on program preference and
-        # program availability.
-
-        preference_order_programs = [
-            "festival",
-            "espeak",
-            "pico2wave",
-            "deep_throat.py"
-        ]
-        # Remove the specified preference program from the default program
-        # preferences order and prioritise it.
-        preference_order_programs.remove(preference_program)
-        preference_order_programs.insert(0, preference_program)
-        # Determine first program that is available in the programs order of
-        # preference.
-        preference_order_programs_available =\
-            [program for program in preference_order_programs \
-                if shijian.which(program) is not None]
-
-        # Say the text if a program is available.
-
-        if preference_order_programs_available:
-            program = preference_order_programs_available[0]
-            if program != preference_program and not silent:
-                print(
-                    "text-to-speech preference program unavailable, "
-                    "using {program}".format(
-                        program = program
-                    )
-                )
-            if program == "festival":
-                command = """
-                echo "{text}" | festival --tts
-                """.format(
-                    text = text
-                )
-            elif program == "espeak":
-                command = """
-                echo "{text}" | espeak
-                """.format(
-                    text = text
-                )
-            elif program == "pico2wave":
-                command = """
-                file_tmp=""$(tempfile)".wav"
-                pico2wave --wave="${{file_tmp}}" "{text}"
-                aplay --quiet "${{file_tmp}}"
-                """.format(
-                    text = text
-                )
-            elif program == "deep_throat.py":
-                command = """
-                echo "{text}" | deep_throat.py
-                """.format(
-                    text = text
-                )
-            if background:
-                command = command.rstrip().rstrip("\n") + " &"
-            engage_command(command)
-        else:
+    """
+    Say specified text to speakers or to file, as specified. Determine the
+    program to use based on the specified program preference and availability,
+    then say the text to speakers or synthesize speech of the text and save it
+    to file, as specified.
+    """
+    if not text:
+        if not silent:
+            print("text not specified")
+        return False
+    if filepath:
+        filepath = os.path.expanduser(filepath)
+        if not os.path.exists(filepath):
             if not silent:
-                print("text-to-speech program unavailable")
+                print("{filepath} not found".format(filepath = filepath))
+            return False
+
+    # Determine the program to use based on program preference and program
+    # availability.
+    preference_order_programs = [
+        "festival",
+        "espeak",
+        "pico2wave",
+        "deep_throat.py"
+    ]
+    # Remove the specified preference program from the default program
+    # preferences order and prioritise it.
+    preference_order_programs.remove(preference_program)
+    preference_order_programs.insert(0, preference_program)
+    # Determine first program that is available in the programs order of
+    # preference.
+    preference_order_programs_available =\
+        [program for program in preference_order_programs \
+            if shijian.which(program) is not None]
+    if not preference_order_programs_available:
+        if not silent:
+            print("text-to-speech program unavailable")
+        return False
+    program = preference_order_programs_available[0]
+    if program != preference_program and not silent:
+        print("text-to-speech preference program unavailable, using {program}".format(program = program))
+
+    if program == "festival":
+        if not filepath:
+            command = """
+            echo "{text}" | festival --tts
+            """.format(text = text)
+        else:
+            command = """
+            echo "{text}" | text2wave -o {filepath}
+            """.format(text = text, filepath = filepath)
+    elif program == "espeak":
+        if not filepath:
+            command = """
+            echo "{text}" | espeak
+            """.format(text = text)
+        else:
+            command = """
+            echo "{text}" | espeak -w {filepath}
+            """.format(text = text, filepath = filepath)
+    elif program == "pico2wave":
+        if not filepath:
+            command = """
+            file_tmp=""$(tempfile)".wav"
+            pico2wave --wave="${{file_tmp}}" "{text}"
+            aplay --quiet "${{file_tmp}}"
+            """.format(text = text)
+        else:
+            command = """
+            pico2wave --wave="${filepath}" "{text}"
+            """.format(text = text, filepath = filepath)
+    elif program == "deep_throat.py":
+        if not filepath:
+            command = """
+            echo "{text}" | deep_throat.py
+            """.format(text = text)
+        else:
+            command = """
+            deep_throat.py --text="{text}" --savetowavefile --outfile="{filepath}"
+            """.format(text = text, filepath = filepath)
+    if filepath:
+        background = False
+    if background:
+        command = command.rstrip().rstrip("\n") + " &"
+    engage_command(command = command, background = background)
 
 ################################################################################
 #                                                                              #
