@@ -62,7 +62,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2018-03-01T2112Z"
+version = "2018-03-01T2321Z"
 
 ################################################################################
 #                                                                              #
@@ -479,6 +479,21 @@ def say(
         command = command.rstrip().rstrip("\n") + " &"
     command = textwrap.dedent(command)
     engage_command(command = command, background = background)
+
+def say_tmp_filepath(
+    text               = None,
+    preference_program = "festival"
+    ):
+    """
+    Say specified text to a temporary file and return the filepath.
+    """
+    filepath = shijian.tmp_filepath() + ".wav"
+    say(
+        text               = text,
+        preference_program = preference_program,
+        filepath           = filepath
+    )
+    return filepath
 
 ################################################################################
 #                                                                              #
