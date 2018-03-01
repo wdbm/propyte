@@ -47,7 +47,7 @@ import propyte
 import psutil
 
 name    = "propyte_loop_alert_on_new_users"
-version = "2018-01-18T1628Z"
+version = "2018-01-18T1707Z"
 logo    = None
 
 def main(options):
@@ -59,7 +59,7 @@ def main(options):
         users = set([suser.name for suser in psutil.users()])
         symmetric_difference = list(users.symmetric_difference(users_previous))
         if symmetric_difference:
-            text = "new users detected: " + ", ".join(symmetric_difference)
+            text = "users change detected: " + ", ".join(symmetric_difference)
             print(text)
             propyte.send_message_Pushbullet(
                 text = text
