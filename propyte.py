@@ -43,6 +43,7 @@ import logging
 import os
 import signal
 import sys
+import textwrap
 import threading
 import time
 import urllib
@@ -61,7 +62,7 @@ import shijian
 import technicolor
 
 name    = "propyte"
-version = "2018-02-28T0136Z"
+version = "2018-03-01T2112Z"
 
 ################################################################################
 #                                                                              #
@@ -411,13 +412,6 @@ def say(
         if not silent:
             print("text not specified")
         return False
-    if filepath:
-        filepath = os.path.expanduser(filepath)
-        if not os.path.exists(filepath):
-            if not silent:
-                print("{filepath} not found".format(filepath = filepath))
-            return False
-
     # Determine the program to use based on program preference and program
     # availability.
     preference_order_programs = [
@@ -442,7 +436,6 @@ def say(
     program = preference_order_programs_available[0]
     if program != preference_program and not silent:
         print("text-to-speech preference program unavailable, using {program}".format(program = program))
-
     if program == "festival":
         if not filepath:
             command = """
@@ -464,13 +457,12 @@ def say(
     elif program == "pico2wave":
         if not filepath:
             command = """
-            file_tmp=""$(tempfile)".wav"
-            pico2wave --wave="${{file_tmp}}" "{text}"
-            aplay --quiet "${{file_tmp}}"
-            """.format(text = text)
+            pico2wave --wave="{filepath}" "{text}"
+            aplay --quiet "{filepath}"
+            """.format(text = text, filepath = shijian.tmp_filepath() + ".wav")
         else:
             command = """
-            pico2wave --wave="${filepath}" "{text}"
+            pico2wave --wave="{filepath}" "{text}"
             """.format(text = text, filepath = filepath)
     elif program == "deep_throat.py":
         if not filepath:
@@ -485,6 +477,7 @@ def say(
         background = False
     if background:
         command = command.rstrip().rstrip("\n") + " &"
+    command = textwrap.dedent(command)
     engage_command(command = command, background = background)
 
 ################################################################################

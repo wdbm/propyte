@@ -3,7 +3,7 @@
 """
 ################################################################################
 #                                                                              #
-# examples_sounds                                                              #
+# examples_sounds_files                                                        #
 #                                                                              #
 ################################################################################
 #                                                                              #
@@ -30,7 +30,7 @@
 ################################################################################
 """
 
-name    = "examples_sounds"
+name    = "examples_sounds_files"
 version = "2018-03-01T2111Z"
 logo    = None
 
@@ -43,33 +43,26 @@ def main():
     text = "This is a speech synthesis test."
     print("attempt to speak using first available text-to-speech program")
     propyte.say(
-        text = text
+        text     = text,
+        filepath = "first_available_text-to-speech.wav"
     )
     print("attempt to speak using pico2wave")
     propyte.say(
         text               = text,
-        preference_program = "pico2wave"
+        preference_program = "pico2wave",
+        filepath           = "pico2wave.wav"
     )
     print("attempt to speak using eSpeak")
     propyte.say(
         text               = text,
         preference_program = "espeak",
-        silent             = False
+        filepath           = "eSpeak.wav"
     )
     print("attempt to speak using deep throat")
     propyte.say(
         text               = text,
-        preference_program = "deep_throat.py"
-    )
-    print("attempt to speak in background (two voices at once)")
-    propyte.say(
-        text       = text,
-        background = True
-    )
-    time.sleep(0.02)
-    propyte.say(
-        text       = text,
-        background = True
+        preference_program = "deep_throat.py",
+        filepath           = "deep_throat.wav"
     )
 
 if __name__ == "__main__":
