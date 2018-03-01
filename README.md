@@ -13,11 +13,11 @@ sudo pip install propyte
 Set up [Festival](http://www.cstr.ed.ac.uk/projects/festival/), [eSpeak](http://espeak.sourceforge.net/), Pico TTS and [deep_throat](https://github.com/wdbm/deep_throat) for speech capabilities.
 
 ```Bash
-sudo apt-get -y install \
-    festival            \
-    espeak              \
-    libttspico0         \
-    libttspico-utils    \
+sudo apt install     \
+    festival         \
+    espeak           \
+    libttspico0      \
+    libttspico-utils \
     libttspico-data
 sudo pip install deep_throat
 ```
@@ -26,7 +26,7 @@ Set up Telegram and Telegram messenger CLI for Telegram messaging capabilities.
 
 ```Bash
 sudo su -
-apt-get -y install  \
+apt install         \
     libreadline-dev \
     libconfig-dev   \
     libssl-dev      \
@@ -49,7 +49,7 @@ chmod -R 755 tg/
 Set up Pylint and Graphviz for UML representations
 
 ```Bash
-sudo apt-get -y install graphviz libgraphviz-dev python-dev
+sudo apt install graphviz libgraphviz-dev python-dev
 sudo pip install pylint pygraphviz
 ```
 
