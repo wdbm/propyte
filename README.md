@@ -197,6 +197,10 @@ propyte.send_message_Pushbullet(
 )
 ```
 
+## propyte_loop_alert_on_new_users.py
+
+This script sends Pushbullet alerts on detection of new users or users changes.
+
 # UML
 
 UML diagrams of a Python project can be generated using Pylint and Graphviz. This can be done by executing the Bash script `UML.sh` in the working directory of the project. This executes the following commands:
