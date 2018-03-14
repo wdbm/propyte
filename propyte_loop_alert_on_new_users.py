@@ -36,10 +36,13 @@ usage:
     program [options]
 
 options:
-    -h, --help   display help message
-    --version    display version and exit
+    -h, --help        display help message
+    --version         display version and exit
+    --verbose         display output each loop
+    --interval=FLOAT  time interval between each loop [default: 30]
 """
 
+import datetime
 import docopt
 import time
 
@@ -47,25 +50,35 @@ import propyte
 import psutil
 
 name    = "propyte_loop_alert_on_new_users"
-version = "2018-01-18T1707Z"
+version = "2018-03-14T1447Z"
 logo    = None
 
 def main(options):
 
+    verbose  =       options["--verbose"]
+    interval = float(options["--interval"])
     propyte.start_messaging_Pushbullet()
-
     users_previous = set([suser.name for suser in psutil.users()])
+    number_of_users_previous = len([suser.name for suser in psutil.users()])
     while True:
-        users = set([suser.name for suser in psutil.users()])
+        users           = set([suser.name for suser in psutil.users()])
+        number_of_users = len([suser.name for suser in psutil.users()])
+        if verbose:
+            print("\n" + datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S Z"))
+            print("current unique users:    " + str(list(users)))
+            print("current number of users: " + str(number_of_users))
         symmetric_difference = list(users.symmetric_difference(users_previous))
         if symmetric_difference:
             text = "users change detected: " + ", ".join(symmetric_difference)
             print(text)
-            propyte.send_message_Pushbullet(
-                text = text
-            )
+            propyte.send_message_Pushbullet(text = text)
+        if number_of_users != number_of_users_previous:
+            text = "number of users changed"
+            print(text)
+            propyte.send_message_Pushbullet(text = text)
         users_previous = users
-        time.sleep(10)
+        number_of_users_previous = number_of_users
+        time.sleep(interval)
 
 if __name__ == "__main__":
     options = docopt.docopt(__doc__)
